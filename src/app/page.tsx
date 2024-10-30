@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
 import * as React from 'react';
@@ -24,8 +25,8 @@ function Toolbar() {
 }
 
 const rows: GridRowsProp = [
-  { id: 1, titel: 'Mathematik I', teachtype: 'Vorlesung', ects: 5, code: 'MAT101', lecturer: 'Dr. Müller' },
-  { id: 2, titel: 'Informatik I', teachtype: 'Vorlesung', ects: 6, code: 'INF101', lecturer: 'Prof. Schmidt' },
+  { id: 1, titel: 'Mathematik I', teachtype: 'Vorlesung', ects: 6, code: 'MAT101', lecturer: 'Dr. Müller', action: true },
+  { id: 2, titel: 'Informatik I', teachtype: 'Vorlesung', ects: 6, code: 'INF101', lecturer: 'Prof. Schmidt', action: false },
   { id: 3, titel: 'Physik I', teachtype: 'Vorlesung', ects: 4, code: 'PHY101', lecturer: 'Dr. Weber' },
   { id: 4, titel: 'Chemie I', teachtype: 'Vorlesung', ects: 5, code: 'CHE101', lecturer: 'Dr. Fischer' },
   { id: 5, titel: 'Biologie I', teachtype: 'Vorlesung', ects: 3, code: 'BIO101', lecturer: 'Dr. Becker' },
@@ -37,15 +38,25 @@ const columns: GridColDef[] = [
   { field: 'ects', headerName: 'ECTS', width: 150 },
   { field: 'code', headerName: 'Kennzeichnung', width: 150 },
   { field: 'lecturer', headerName: 'Dozent', width: 150 },
+  {
+    field: 'action',
+    headerName: 'Aktion',
+    width: 150,
+    renderCell: (params) => (
+      params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }} /> : <HighlightOffIcon sx={{ color: "red" }} />
+    ),
+  }
 ];
 
 export default function Home() {
   return (
-    <Stack sx={{ m: 4, p: 2, bgcolor: "white" }}>
-      <div style={{ height: 300, width: '100%' }}>
-        <DataGrid rows={rows} columns={columns} />
-      </div>
-    </Stack>
+    <ThemeProvider theme={theme}>
+      <Stack sx={{ m: 4, p: 2, bgcolor: "white" }}>
+        <div style={{ height: 300, width: '100%' }}>
+          <DataGrid disableColumnMenu rows={rows} columns={columns} slots={{ toolbar: Toolbar }} />
+        </div>
+      </Stack>
+    </ThemeProvider>
   );
 }
 
