@@ -2,7 +2,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import * as React from 'react';
-import { DataGrid, GridRowsProp, GridColDef, GridToolbarFilterButton } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp, GridColDef, GridToolbarFilterButton, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { createTheme, Stack, ThemeProvider } from "@mui/material";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -20,6 +20,14 @@ function Toolbar() {
   return (
     <div>
       <GridToolbarFilterButton />
+      <GridToolbarQuickFilter
+        quickFilterParser={(searchInput: string) =>
+          searchInput
+            .split(',')
+            .map((value) => value.trim())
+            .filter((value) => value !== '')
+        }
+      />
     </div>
   );
 }
@@ -53,7 +61,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <Stack sx={{ m: 4, p: 2, bgcolor: "white" }}>
         <div style={{ height: 300, width: '100%' }}>
-          <DataGrid disableColumnMenu rows={rows} columns={columns} slots={{ toolbar: Toolbar }} />
+          <DataGrid disableColumnMenu rows={rows} columns={columns} slots={{ toolbar: Toolbar }} slotProps={{ toolbar: { showQuickFilter: true } }} />
         </div>
       </Stack>
     </ThemeProvider>
