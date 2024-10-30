@@ -1,8 +1,27 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import * as React from 'react';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { Stack } from "@mui/material";
+import { DataGrid, GridRowsProp, GridColDef, GridToolbarFilterButton } from '@mui/x-data-grid';
+import { createTheme, Stack, ThemeProvider } from "@mui/material";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { deDE } from '@mui/x-data-grid/locales';
+const theme = createTheme(
+  {
+    palette: {
+      primary: { main: '#1976d2' },
+    },
+  },
+  deDE,
+);
+
+function Toolbar() {
+  return (
+    <div>
+      <GridToolbarFilterButton />
+    </div>
+  );
+}
 
 const rows: GridRowsProp = [
   { id: 1, titel: 'Mathematik I', teachtype: 'Vorlesung', ects: 5, code: 'MAT101', lecturer: 'Dr. Müller' },
