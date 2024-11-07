@@ -1,11 +1,8 @@
 "use client";
-import Image from "next/image";
-import styles from "./page.module.css";
-import * as React from 'react';
-import { DataGrid, GridRowsProp, GridColDef, GridToolbarFilterButton, GridToolbarQuickFilter } from '@mui/x-data-grid';
-import { createTheme, Stack, ThemeProvider } from "@mui/material";
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { createTheme, Stack, ThemeProvider } from "@mui/material";
+import { DataGrid, GridColDef, GridRowsProp, GridToolbarFilterButton, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { deDE } from '@mui/x-data-grid/locales';
 const theme = createTheme(
   {
