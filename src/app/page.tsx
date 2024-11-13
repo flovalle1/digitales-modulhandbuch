@@ -1,9 +1,13 @@
 "use client";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { createTheme, Stack, ThemeProvider } from "@mui/material";
+import { createTheme, Stack, ThemeProvider, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { DataGrid, GridColDef, GridRowsProp, GridToolbarFilterButton, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { deDE } from '@mui/x-data-grid/locales';
+import React from 'react';
+
+
 const theme = createTheme(
   {
     palette: {
@@ -54,10 +58,35 @@ const columns: GridColDef[] = [
 ];
 
 export default function Home() {
+  const [fieldOfStudy, setFieldOfStudy] = React.useState('test')
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setFieldOfStudy(newAlignment);
+  };
+
+
   return (
     <ThemeProvider theme={theme}>
-      <Stack sx={{ m: 4, p: 2, bgcolor: "white" }}>
-        <div style={{ height: 300, width: '100%' }}>
+      <Stack sx={{ m: 4, p: 2 }}>
+        <Grid container>
+          <Grid size={4}>
+            <ToggleButtonGroup
+              color="primary"
+              value={fieldOfStudy}
+              exclusive
+              onChange={handleChange}
+              aria-label="Platform"
+            >
+              <ToggleButton value="web">Web</ToggleButton>
+              <ToggleButton value="android">Android</ToggleButton>
+              <ToggleButton value="ios">iOS</ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
+        </Grid>
+        <div style={{ width: '100%' }}>
           <DataGrid disableColumnMenu rows={rows} columns={columns} slots={{ toolbar: Toolbar }} slotProps={{ toolbar: { showQuickFilter: true } }} />
         </div>
       </Stack>
