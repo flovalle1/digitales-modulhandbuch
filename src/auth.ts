@@ -6,6 +6,9 @@ import { getUserFromDb } from "./utils/auth/getUserFromDb"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
+    session: {
+        strategy: "jwt",
+    },
     providers: [Credentials({
         credentials: {
             email: {},
@@ -23,6 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 throw new Error("Invalid credentials.")
             }
 
+            console.log("User found:", user)
             // return user object with their profile data
             return user
         },
