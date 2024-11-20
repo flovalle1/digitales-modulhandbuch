@@ -1,13 +1,13 @@
-import { signIn } from "@/auth";
-import { TextField, Button, Box } from "@mui/material";
+"use client"
+import { Button, TextField } from "@mui/material";
+import { signIn } from "next-auth/react";
 
 export default function SignIn() {
     return (
         <form
             action={async (formData) => {
-                "use server"
-                await signIn("credentials", formData)
-                console.log("Sign in successful")
+                const formDataObj = Object.fromEntries(formData.entries());
+                await signIn('credentials', formDataObj, { redirectTo: '/admin' });
             }}
         >
             <TextField
