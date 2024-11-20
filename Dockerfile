@@ -24,11 +24,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma client
 RUN npm run create-env
-RUN npx prisma generate
-
-
+RUN echo "Contents of .env file:" && cat .env
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
