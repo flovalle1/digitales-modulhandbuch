@@ -1,11 +1,12 @@
 import AssignmentTable from "@/components/AssignmentTable";
 import { prisma } from "@/prisma";
 import { GridRowsProp } from "@mui/x-data-grid";
+import { Course } from "@prisma/client";
 
 
 export default async function Home(): Promise<JSX.Element> {
 
-  const courses = await prisma.course.findMany();
+  const courses: Course[] = await prisma.course.findMany();
 
   const rows: GridRowsProp = courses.map((course) => {
     return {
