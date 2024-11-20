@@ -14,16 +14,23 @@ datasource db {
 }
 
 model Course {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  Int      @id @default(autoincrement())
+  title               String
+  teachType           String
+  ects                Int
+  code                String
+  lastOffer           String
+  nextOffer           String
+  contents            String
+  qualificationGoeals String
+  lecturer            String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
   //Lecturer    Lecturer @relation(fields: [id], references: [id])
 }
 
 //___________________________________________________________________________________________//
-//USED FOR AUTHENTICATION - DO NOT CHANGE //
+//USED FOR AUTHENTICATION - DO NOT REMOVE //
 
 model User {
   id            String    @id @default(cuid())
