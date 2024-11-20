@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
+    "@emotion/cache": "^11.13.5",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
+    "@mui/material-nextjs": "^6.1.7",
     "@mui/x-data-grid": "^7.22.0",
     "@prisma/client": "^5.22.0",
     "bcrypt": "^5.1.1",
