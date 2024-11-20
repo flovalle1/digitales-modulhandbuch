@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "typecheck": "tsc --noEmit --incremental"
+    "typecheck": "tsc --noEmit --incremental",
+    "create-env": "printenv > .env.local"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
