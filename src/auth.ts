@@ -26,7 +26,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 throw new Error("Invalid credentials.")
             }
 
-            console.log("User found:", user)
             // return user object with their profile data
             return user
         },
