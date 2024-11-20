@@ -1,4 +1,5 @@
 import { prisma } from '@/prisma';
+import { comparePasswordAndHash } from './saltAndHashPassword';
 
 /**
  * Fetches a user from the database using their email and password hash.
@@ -8,13 +9,16 @@ import { prisma } from '@/prisma';
  * @returns {Promise<Object|null>} - Returns the user object if found and password hash matches, otherwise null.
  * @throws {Error} - Throws an error if there is an issue with the database query and logs it to the console.
  */
-export async function getUserFromDb(email: string, pwHash: string) {
+export async function getUserFromDb(email: string, password: string) {
     try {
         const user = await prisma.user.findUnique({
             where: { email },
         });
 
-        if (user && user.passwordHash === pwHash) {
+        if (!user) return null;
+
+        const passwordMatch: boolean = await comparePasswordAndHash(password, user.passwordHash)
+        if (passwordMatch) {
             return user;
         } else {
             return null;
