@@ -1,3 +1,4 @@
+import AuthGuard from "@/utils/auth/authguard";
 import { SessionProvider } from "next-auth/react";
 
 export default function AdminLayout({
@@ -7,7 +8,9 @@ export default function AdminLayout({
 }>) {
     return (
         <SessionProvider>
-            {children}
+            <AuthGuard>
+                {children}
+            </AuthGuard>
         </SessionProvider>
 
     );
