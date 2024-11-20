@@ -19,7 +19,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
         return <div>laden...</div>;
     }
 
-    if (status === 'authenticated') {
+    if (status === 'authenticated' && session) {
         return <>{children}</>;
     }
 

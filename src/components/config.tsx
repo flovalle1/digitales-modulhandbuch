@@ -7,7 +7,7 @@ export type FieldOfStudy = {
     content: GridColDef[]
 }
 
-export const getFieldOfStudy = (id: String) => {
+export const getFieldOfStudy = (id: string) => {
     switch (id) {
         case "cs":
             return cs;
