@@ -5,7 +5,7 @@ import { deDE } from '@mui/x-data-grid/locales';
 const theme = createTheme(
   {
     palette: {
-      primary: { main: '#1976d2' },
+      primary: { main: '#A51E37' },
     },
   },
   deDE,

@@ -1,4 +1,5 @@
 "use client";
+import { Person } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
@@ -15,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import * as React from 'react';
 
-const pages = ['Dozenten'];
+const pages = ['Zuordnungstabelle', 'Veranstaltunsverzeichnisse', 'Dozenten'];
 
 export default function TopNavigation() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -114,7 +115,7 @@ export default function TopNavigation() {
                             <Button
                                 key={page}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                sx={{ my: 2, color: 'white', display: 'block', }}
                             >
                                 {page}
                             </Button>
@@ -131,6 +132,9 @@ export default function TopNavigation() {
                             />
                         </Search>
                     </Box>
+                    <Button sx={{ ml: 2 }} variant="contained" startIcon={<Person />}>
+                        Dozenten Login
+                    </Button>
                 </Toolbar>
             </Container>
         </AppBar >

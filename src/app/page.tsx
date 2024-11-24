@@ -27,10 +27,10 @@ export default function ActionAreaCard() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
+              <Button variant="contained" size="small" color="primary">
                 Bachelor
               </Button>
-              <Button size="small" color="primary">
+              <Button variant="contained" size="small" color="primary">
                 Master
               </Button>
             </CardActions>
@@ -50,10 +50,10 @@ export default function ActionAreaCard() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
+              <Button variant="contained" size="small" color="primary">
                 Bachelor
               </Button>
-              <Button size="small" color="primary">
+              <Button variant="contained" size="small" color="primary">
                 Master
               </Button>
             </CardActions>
