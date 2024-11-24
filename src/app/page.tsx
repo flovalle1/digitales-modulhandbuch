@@ -1,28 +1,67 @@
-import AssignmentTable from "@/components/AssignmentTable";
-import { prisma } from "@/prisma";
-import { GridRowsProp } from "@mui/x-data-grid";
-import { Course } from "@prisma/client";
+import { paths } from '@/paths';
+import { BackupTable } from '@mui/icons-material';
+import { Button, CardActions, Grid2 as Grid, Stack } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 
-
-export default async function Home(): Promise<JSX.Element> {
-
-  const courses: Course[] = await prisma.course.findMany();
-
-  const rows: GridRowsProp = courses.map((course) => {
-    return {
-      id: course.id,
-      titel: course.title,
-      teachtype: course.teachType,
-      ects: course.ects,
-      code: course.code,
-      lecturer: course.lecturer,
-    };
-  });
-
-  console.log(rows);
-
+export default function ActionAreaCard() {
   return (
-    <AssignmentTable rows={rows} />
+    <Stack sx={{ height: '100vh' }} justifyContent="center">
+      <Grid container spacing={3} justifyContent="center" alignItems="center">
+        <Grid>
+          <Card sx={{ maxWidth: 345 }}>
+            <CardActionArea href={paths.zuordnungstabelle}>
+              <CardMedia>
+                <BackupTable />
+              </CardMedia>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Zuordungstabellen
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  Tabellarische Auflistung aller Lehrveranstaltungen und deren Zugehörigkeit zu den Studienbereichen.
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary">
+                Bachelor
+              </Button>
+              <Button size="small" color="primary">
+                Master
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid>
+          <Card sx={{ maxWidth: 345 }}>
+            <CardActionArea href={paths.veranstaltungsverzeichnis}>
+              <BackupTable />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Veranstaltungsverzeichnisse
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  Eine detaillierte Auflistung aller Modulbeschreibungen mit Inhalten und Qualifikationszielen.
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary">
+                Bachelor
+              </Button>
+              <Button size="small" color="primary">
+                Master
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
+    </Stack>
   );
 }
+
 
