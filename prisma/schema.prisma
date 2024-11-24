@@ -14,18 +14,24 @@ datasource db {
 }
 
 model Course {
-  id                  Int      @id @default(autoincrement())
-  title               String
-  teachType           String
-  ects                Int
-  code                String
-  lastOffer           String
-  nextOffer           String
-  contents            String
-  qualificationGoeals String
-  lecturer            String
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                   Int      @id @default(autoincrement())
+  title                String
+  typeOfCourse         String
+  contactTimeInHours   Int
+  selfStudyTimeInHours Int
+  workloadInHours      Int      @default(dbgenerated("ects * 30"))
+  teachType            String
+  ects                 Int
+  code                 String
+  lastOffer            String?
+  nextOffer            String
+  contents             String
+  qualificationGoals   String
+  lecturer             String
+  requirements         String?
+  literature           String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
   //Lecturer    Lecturer @relation(fields: [id], references: [id])
 }
 
@@ -60,7 +66,7 @@ model Account {
   session_state     String?
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -74,7 +80,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now())
 }
 
 model VerificationToken {
