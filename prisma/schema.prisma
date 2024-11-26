@@ -19,7 +19,7 @@ model Course {
   typeOfCourse         String
   contactTimeInHours   Int
   selfStudyTimeInHours Int
-  workloadInHours      Int      @default(dbgenerated("ects * 30"))
+  workloadInHours      Int
   teachType            String
   ects                 Int
   code                 String
