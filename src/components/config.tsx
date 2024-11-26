@@ -22,7 +22,7 @@ export const getFieldOfStudy = (id: string) => {
     }
 }
 
-export const cs = {
+export const cs: FieldOfStudy = {
     id: "Informatik",
     content: [
         {
@@ -72,13 +72,13 @@ export const cs = {
     ]
 }
 
-export const bio_cs = {
+export const bio_cs: FieldOfStudy = {
     id: "Bioinformatik",
     content: [
         {
             field: 'mandatory',
             headerName: 'Pflichtbereich',
-            width: 150,
+            width: 200,
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }} /> : <HighlightOffIcon sx={{ color: "red" }} />
             ),
@@ -86,7 +86,7 @@ export const bio_cs = {
         {
             field: 'bioinfo',
             headerName: 'Wahlpflicht Bioinformatik',
-            width: 150,
+            width: 200,
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }} /> : <HighlightOffIcon sx={{ color: "red" }} />
             ),
@@ -94,7 +94,7 @@ export const bio_cs = {
         {
             field: 'info',
             headerName: 'Wahlpflicht Informatik',
-            width: 150,
+            width: 200,
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -103,7 +103,7 @@ export const bio_cs = {
     ]
 }
 
-export const media_cs = {
+export const media_cs: FieldOfStudy = {
     id: "Medieninformatik",
     content: [
         {
@@ -143,7 +143,7 @@ export const media_cs = {
     ]
 }
 
-export const medic_cs = {
+export const medic_cs: FieldOfStudy = {
     id: "Medizininformatik",
     content: [
         {
