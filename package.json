@@ -21,6 +21,7 @@
     "@mui/material-nextjs": "^6.1.7",
     "@mui/x-data-grid": "^7.22.0",
     "@prisma/client": "^5.22.0",
+    "@toolpad/core": "^0.10.0",
     "bcrypt": "^5.1.1",
     "next": "15.0.2",
     "next-auth": "^5.0.0-beta.25",
