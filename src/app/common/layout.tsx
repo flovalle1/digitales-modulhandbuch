@@ -1,6 +1,7 @@
 import TopNavigation from '@/components/TopNavigation';
-import { Stack } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import type { Metadata } from "next";
+import theme from '../theme';
 
 
 export const metadata: Metadata = {
@@ -14,9 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Stack>
-      <TopNavigation />
-      {children}
-    </Stack>
+    <body
+      style={{ backgroundColor: "#FFFFF1" }}
+    >
+      <ThemeProvider theme={theme}>
+        <TopNavigation />
+        {children}
+      </ThemeProvider>
+    </body>
   );
 }

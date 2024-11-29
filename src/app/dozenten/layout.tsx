@@ -70,10 +70,12 @@ export default function AdminLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <SessionProvider>
-            <AuthGuard>
-                {children}
-            </AuthGuard>
-        </SessionProvider>
+        <body>
+            <SessionProvider>
+                <AuthGuard>
+                    {children}
+                </AuthGuard>
+            </SessionProvider>
+        </body>
     );
 }
