@@ -34,7 +34,7 @@ const NAVIGATION: Navigation = [
         icon: <StyleIcon />,
         children: [
             {
-                segment: 'sales',
+                segment: 'add',
                 title: 'Hinzufügen',
                 icon: <DescriptionIcon />,
             },
@@ -96,7 +96,8 @@ export default function DashboardLayoutBasic(props: any) {
         >
             <DashboardLayout>
                 <PageContainer>
-                    <CreateCourseForm />
+                    {router.pathname == "/courses/add" && <CreateCourseForm />}
+                    {router.pathname == "/courses/edit" && <CreateCourseForm />}
                 </PageContainer>
             </DashboardLayout>
         </AppProvider>

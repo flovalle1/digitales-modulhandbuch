@@ -1,4 +1,6 @@
 "use client";
+import theme from '@/app/theme';
+import { paths } from '@/paths';
 import { Person } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -8,15 +10,16 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import * as React from 'react';
 
-const pages = ['Zuordnungstabelle', 'Veranstaltunsverzeichnisse', 'Dozenten'];
+const pages = [
+    { name: 'Zuordnungstabelle', link: paths.zuordnungstabelle },
+    { name: 'Veranstaltunsverzeichnisse', link: paths.veranstaltungsverzeichnis },
+    { name: 'Dozenten', link: paths.dozenten }
+];
 
 export default function TopNavigation() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -87,37 +90,16 @@ export default function TopNavigation() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: 'block', md: 'none' } }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 4, }}>
                         {pages.map((page) => (
                             <Button
-                                key={page}
+                                key={page.name}
+                                href={page.link}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block', }}
+                                sx={{ my: 2, color: 'white', display: 'block', ":hover": { backgroundColor: theme.palette.primary.main } }}
                             >
-                                {page}
+                                {page.name}
                             </Button>
                         ))}
                     </Box>
@@ -132,7 +114,7 @@ export default function TopNavigation() {
                             />
                         </Search>
                     </Box>
-                    <Button sx={{ ml: 2 }} variant="contained" startIcon={<Person />}>
+                    <Button href={paths.dozenten} sx={{ ml: 2 }} variant="contained" startIcon={<Person />}>
                         Dozenten Login
                     </Button>
                 </Toolbar>
