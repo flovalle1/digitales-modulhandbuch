@@ -10,8 +10,11 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -77,8 +80,6 @@ export default function TopNavigation() {
         <AppBar position="static" sx={{ backgroundColor: '#272727' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Image src="/Universitaet_Tuebingen.png" alt="Universität Tübingen" width={200} height={50} />
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -91,6 +92,31 @@ export default function TopNavigation() {
                             <MenuIcon />
                         </IconButton>
                     </Box>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', lg: 'flex' } }}>
+                        <Image src="/Universitaet_Tuebingen.png" alt="Universität Tübingen" width={200} height={50} />
+                    </Box>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorElNav}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        open={Boolean(anchorElNav)}
+                        onClose={handleCloseNavMenu}
+                        sx={{ display: { xs: 'block', md: 'none' } }}
+                    >
+                        {pages.map((page) => (
+                            <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                                <Typography sx={{ textAlign: 'center' }}>{page.name}</Typography>
+                            </MenuItem>
+                        ))}
+                    </Menu>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 4, }}>
                         {pages.map((page) => (
                             <Button
@@ -115,7 +141,7 @@ export default function TopNavigation() {
                         </Search>
                     </Box>
                     <Button href={paths.dozenten} sx={{ ml: 2 }} variant="contained" startIcon={<Person />}>
-                        Dozenten Login
+                        Login
                     </Button>
                 </Toolbar>
             </Container>
