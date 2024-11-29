@@ -1,6 +1,6 @@
 export const paths = {
-    home: '/',
-    zuordnungstabelle: '/zuordnungstabelle',
-    veranstaltungsverzeichnis: '/veranstaltungsverzeichnis',
+    home: '/common',
+    zuordnungstabelle: '/common/zuordnungstabelle',
+    veranstaltungsverzeichnis: '/common/veranstaltungsverzeichnis',
     dozenten: '/dozenten',
 };
