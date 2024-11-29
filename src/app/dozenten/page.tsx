@@ -1,11 +1,10 @@
 "use client";
-import BarChartIcon from '@mui/icons-material/BarChart';
+import CreateCourseForm from '@/components/dozenten/createCourseForm';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Grid from '@mui/material/Grid2';
-import { extendTheme, styled } from '@mui/material/styles';
+import StyleIcon from '@mui/icons-material/Style';
+import { extendTheme } from '@mui/material/styles';
 import { Navigation, Router } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { AppProvider } from '@toolpad/core/nextjs';
@@ -15,46 +14,42 @@ import * as React from 'react';
 const NAVIGATION: Navigation = [
     {
         kind: 'header',
-        title: 'Main items',
+        title: 'Übersicht',
     },
     {
         segment: 'dashboard',
-        title: 'Dashboard',
+        title: 'Meine Kurse',
         icon: <DashboardIcon />,
-    },
-    {
-        segment: 'orders',
-        title: 'Orders',
-        icon: <ShoppingCartIcon />,
     },
     {
         kind: 'divider',
     },
     {
         kind: 'header',
-        title: 'Analytics',
+        title: 'Bearbeiten',
     },
     {
-        segment: 'reports',
-        title: 'Reports',
-        icon: <BarChartIcon />,
+        segment: 'courses',
+        title: 'Kurse',
+        icon: <StyleIcon />,
         children: [
             {
                 segment: 'sales',
-                title: 'Sales',
+                title: 'Hinzufügen',
                 icon: <DescriptionIcon />,
             },
             {
-                segment: 'traffic',
-                title: 'Traffic',
+                segment: 'edit',
+                title: 'Bearbeiten',
                 icon: <DescriptionIcon />,
+                pattern: 'edit{/:courseId}*',
             },
         ],
     },
     {
         segment: 'integrations',
-        title: 'Integrations',
-        icon: <LayersIcon />,
+        title: 'Dozentenprofil',
+        icon: <AccountCircleIcon />,
     },
 ];
 
@@ -86,12 +81,6 @@ function useDemoRouter(initialPath: string): Router {
     return router;
 }
 
-const Skeleton = styled('div')<{ height: number }>(({ theme, height }) => ({
-    backgroundColor: theme.palette.action.hover,
-    borderRadius: theme.shape.borderRadius,
-    height,
-    content: '" "',
-}));
 
 export default function DashboardLayoutBasic(props: any) {
     const { window } = props;
@@ -103,44 +92,11 @@ export default function DashboardLayoutBasic(props: any) {
             navigation={NAVIGATION}
             router={router}
             theme={demoTheme}
+            branding={{ title: 'Dozenten Backend', logo: <img src="/Universitaet_Tuebingen.png" alt="Logo" /> }}
         >
             <DashboardLayout>
                 <PageContainer>
-                    <Grid container spacing={1}>
-                        <Grid size={5} />
-                        <Grid size={12}>
-                            <Skeleton height={14} />
-                        </Grid>
-                        <Grid size={12}>
-                            <Skeleton height={14} />
-                        </Grid>
-                        <Grid size={4}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={8}>
-                            <Skeleton height={100} />
-                        </Grid>
-
-                        <Grid size={12}>
-                            <Skeleton height={150} />
-                        </Grid>
-                        <Grid size={12}>
-                            <Skeleton height={14} />
-                        </Grid>
-
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                        <Grid size={3}>
-                            <Skeleton height={100} />
-                        </Grid>
-                    </Grid>
+                    <CreateCourseForm />
                 </PageContainer>
             </DashboardLayout>
         </AppProvider>

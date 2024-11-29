@@ -2,13 +2,21 @@
 import { createTheme } from "@mui/material/styles";
 import { deDE } from '@mui/x-data-grid/locales';
 
-const theme = createTheme(
-  {
-    palette: {
-      primary: { main: '#A51E37' },
+
+const themeProps = {
+  palette: {
+    primary: {
+      main: '#A51E37',
     },
   },
+};
+
+const theme = createTheme(
+  themeProps,
   deDE,
 );
 
+
+
 export default theme;
+export { themeProps };
