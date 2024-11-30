@@ -1,5 +1,5 @@
 import CourseDetails from '@/components/CourseDetails';
-import { Paper, Stack, TableContainer } from '@mui/material';
+import { Stack } from '@mui/material';
 import { Course } from '@prisma/client';
 
 
@@ -14,8 +14,8 @@ const rows: Course[] = [
         teachType: "In-person",
         ects: 3,
         code: "CS101",
-        lastOffer: "2022-09-01",
-        nextOffer: "2023-09-01",
+        lastOffer: "Sommersemster 2022",
+        nextOffer: "Wintersemester 2022/23",
         contents: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         qualificationGoals: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         lecturer: "Dr. John Doe",
@@ -34,8 +34,8 @@ const rows: Course[] = [
         teachType: "In-person",
         ects: 4,
         code: "CS102",
-        lastOffer: "2022-09-01",
-        nextOffer: "2023-09-01",
+        lastOffer: "Sommersemster 2021",
+        nextOffer: "Wintersemester 2022/23",
         contents: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         qualificationGoals: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         lecturer: "Dr. Jane Smith",
@@ -51,9 +51,7 @@ export default function Veranstaltungsverzeichnisse() {
 
         <Stack spacing={5} sx={{ mx: 12, mt: 8 }}>
             {rows.map((row) => (
-                <TableContainer component={Paper}>
-                    <CourseDetails key={row.id} course={row} />
-                </TableContainer>
+                <CourseDetails key={row.id} course={row} />
             ))}
         </Stack>
     );

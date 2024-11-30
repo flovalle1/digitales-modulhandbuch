@@ -1,4 +1,4 @@
-import { Chip, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Card, CardContent, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { Course } from "@prisma/client";
 
 type CourseDetailsProps = {
@@ -6,33 +6,80 @@ type CourseDetailsProps = {
 };
 
 export default function CourseDetails({ course }: CourseDetailsProps) {
-
     return (
-        <Table size="small" aria-label="purchases">
-            <TableHead>
-                <TableRow>
-                    <TableCell>
-                        <Chip color="primary" variant="outlined" label={course.code} />
-                    </TableCell>
-                    <TableCell width={400}>
-                        <Typography variant="h6" color="textPrimary">{course.title}</Typography>
-                    </TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                <TableRow key={course.code}>
-                    <TableCell component="th" scope="row">
-                        Test
-                    </TableCell>
-                    <TableCell>Test</TableCell>
-                    <TableCell align="right">test</TableCell>
-                    <TableCell align="right">
-                        Test
-                    </TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
-    )
+        <Card>
+            <CardContent>
+                <Typography variant="h5" component="div">
+                    {course.title}
+                </Typography>
+                <Typography color="textSecondary">
+                    {course.code}
+                </Typography>
+                <Table>
+                    <TableRow>
+                        <TableCell >
+                            <Typography variant="body1">Arbeitsauffwand</Typography>
+                            <p>{course.workloadInHours} Stunden</p>
+                        </TableCell>
+                        <TableCell >
+                            <Typography variant="body1">Kontaktzeit</Typography>
+                            <p>{course.contactTimeInHours} Stunden</p>
+                        </TableCell>
+                        <TableCell >
+                            <Typography variant="body1">Selbststudium</Typography>
+                            <p>{course.selfStudyTimeInHours} Stunden</p>
+                        </TableCell>
+                    </TableRow>
+                </Table>
+                <Table>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>ECTS</TableCell>
+                            <TableCell colSpan={2}>{course.ects}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Veranstaltungsdauer</TableCell>
+                            <TableCell colSpan={2}>1 Semester</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Häufigkeit des Angebots</TableCell>
+                            <TableCell colSpan={2}>Jährlich / Wintersemester</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Prüfungsform</TableCell>
+                            <TableCell colSpan={2}>Klausur</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Inhalt</TableCell>
+                            <TableCell colSpan={2}>{course.contents}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Qualifikationsziele</TableCell>
+                            <TableCell colSpan={2}>{course.qualificationGoals}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Teilnahmevoraussetzungen</TableCell>
+                            <TableCell colSpan={2}>{course.requirements}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Dozent/in</TableCell>
+                            <TableCell colSpan={2}>{course.lecturer}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Literatur</TableCell>
+                            <TableCell colSpan={2}>{course.literature}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Zuletzt Angeboten</TableCell>
+                            <TableCell colSpan={2}>{course.lastOffer}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Geplant für</TableCell>
+                            <TableCell colSpan={2}>{course.nextOffer}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CardContent>
+        </Card>
+    );
 }
