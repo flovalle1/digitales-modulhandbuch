@@ -59,7 +59,6 @@ export default async function Home(): Promise<JSX.Element> {
       code: course.code,
       lecturer: course.lecturer,
       mandatory: true
-
     };
   });
 
