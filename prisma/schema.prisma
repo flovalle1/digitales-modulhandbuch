@@ -35,6 +35,14 @@ model Course {
   //Lecturer    Lecturer @relation(fields: [id], references: [id])
 }
 
+model Lecturer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  courses   String[]
+}
+
 //___________________________________________________________________________________________//
 //USED FOR AUTHENTICATION - DO NOT REMOVE //
 
