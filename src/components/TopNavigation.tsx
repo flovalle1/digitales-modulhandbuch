@@ -140,7 +140,7 @@ export default function TopNavigation() {
                             />
                         </Search>
                     </Box>
-                    <Button href={paths.dozenten} sx={{ ml: 2 }} variant="contained" startIcon={<Person />}>
+                    <Button href={paths.dashboard} sx={{ ml: 2 }} variant="contained" startIcon={<Person />}>
                         Login
                     </Button>
                 </Toolbar>

@@ -1,5 +1,5 @@
 "use client";
-import CreateCourseForm from '@/components/dozenten/createCourseForm';
+import CreateCourseForm from '@/components/dashboard/createCourseForm';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
