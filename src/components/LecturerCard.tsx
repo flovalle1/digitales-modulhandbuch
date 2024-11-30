@@ -15,7 +15,7 @@ export default function LecturerCard(lecturer: Lecturer) {
                     <Grid size={8}>
                         <List>
                             {lecturer.courses.map((course) => (
-                                <ListItem disablePadding>
+                                <ListItem key={course} disablePadding>
                                     <ListItemButton>
                                         <ListItemText primary={course} secondary="CS101 · 6 ECTS · Sommersemester 2023" />
                                     </ListItemButton>
