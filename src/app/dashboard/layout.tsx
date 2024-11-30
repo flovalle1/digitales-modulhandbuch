@@ -1,13 +1,14 @@
-import AuthGuard from "@/utils/auth/authguard";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
 import StyleIcon from '@mui/icons-material/Style';
 import { extendTheme } from '@mui/material/styles';
-import { Navigation } from '@toolpad/core/AppProvider';
+import { AppProvider, Navigation } from '@toolpad/core/AppProvider';
 import { SessionProvider } from "next-auth/react";
 
+
 import * as React from 'react';
+import theme from '../theme';
 
 
 const NAVIGATION: Navigation = [
@@ -28,7 +29,7 @@ const NAVIGATION: Navigation = [
         title: 'Bearbeiten',
     },
     {
-        segment: 'courses',
+        segment: 'dashboard/courses',
         title: 'Kurse',
         icon: <StyleIcon />,
         children: [
@@ -46,7 +47,7 @@ const NAVIGATION: Navigation = [
         ],
     },
     {
-        segment: 'integrations',
+        segment: 'dashboard/lecturers',
         title: 'Dozentenprofil',
         icon: <AccountCircleIcon />,
     },
@@ -72,9 +73,14 @@ export default function AdminLayout({
     return (
         <body>
             <SessionProvider>
-                <AuthGuard>
+                <AppProvider
+                    navigation={NAVIGATION}
+                    theme={theme}
+                    branding={{ title: 'Dozenten Backend', logo: <img src="/Universitaet_Tuebingen.png" alt="Logo" style={{ maxWidth: '100%', height: 'auto' }} /> }}
+                >
                     {children}
-                </AuthGuard>
+                </AppProvider>
+
             </SessionProvider>
         </body>
     );
