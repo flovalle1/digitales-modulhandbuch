@@ -4,6 +4,7 @@ import { paths } from '@/paths';
 import { Person } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { Autocomplete, TextField } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -23,6 +24,13 @@ const pages = [
     { name: 'Veranstaltunsverzeichnisse', link: paths.veranstaltungsverzeichnis },
     { name: 'Dozenten', link: paths.dozenten }
 ];
+
+const demoAutocomplete = [
+    { title: 'Grundlagen der Informatik', id: "1994" },
+    { title: 'Kursname 3', id: "fasd" },
+    { title: 'Testkurs', id: "asd" },
+    { title: 'Das ist ein Kursname', id: "afsdp" }
+]
 
 export default function TopNavigation() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -59,7 +67,7 @@ export default function TopNavigation() {
         justifyContent: 'center',
     }));
 
-    const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    const StyledInputBase = styled(Autocomplete)(({ theme }) => ({
         color: 'inherit',
         width: '100%',
         '& .MuiInputBase-input': {
@@ -131,12 +139,12 @@ export default function TopNavigation() {
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Kurs finden..."
-                                inputProps={{ 'aria-label': 'search' }}
+                            <Autocomplete
+                                disablePortal
+                                options={demoAutocomplete}
+                                sx={{ width: 300, my: 2 }}
+                                getOptionLabel={(option) => option.title}
+                                renderInput={(params) => <TextField {...params} label="Kurs suchen" />}
                             />
                         </Search>
                     </Box>
