@@ -3,5 +3,5 @@ export const paths = {
     zuordnungstabelle: '/common/zuordnungstabelle',
     veranstaltungsverzeichnis: '/common/veranstaltungsverzeichnis',
     dozenten: '/common/dozenten',
-    dashboard: '/common/dashboard',
+    dashboard: '/dashboard',
 };

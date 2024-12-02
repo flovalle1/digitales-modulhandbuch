@@ -7,7 +7,7 @@ export default function SignIn() {
         <form
             action={async (formData) => {
                 const formDataObj = Object.fromEntries(formData.entries());
-                await signIn('credentials', formDataObj, { redirectTo: '/admin' });
+                await signIn('credentials', formDataObj, { redirectTo: '/dashboard' });
             }}
         >
             <TextField

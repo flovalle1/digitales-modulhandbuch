@@ -1,28 +1,26 @@
 "use client";
 import { SignInPage, type AuthProvider } from '@toolpad/core/SignInPage';
+import { signIn } from "next-auth/react";
+
 
 // preview-start
 const providers = [{ id: 'credentials', name: 'Email and Password' }];
 // preview-end
 
-const signIn: (provider: AuthProvider, formData: FormData) => void = async (
+const signInProvider: (provider: AuthProvider, formData: FormData) => void = async (
   provider,
   formData,
 ) => {
-  const promise = new Promise<void>((resolve) => {
-    setTimeout(() => {
-      alert(
-        `Signing in with "${provider.name}" and credentials: ${formData.get('email')}, ${formData.get('password')}`,
-      );
-      resolve();
-    }, 300);
+  const formDataObj: { [key: string]: string } = {};
+  formData.forEach((value, key) => {
+    formDataObj[key] = value.toString();
   });
-  return promise;
+  await signIn(provider.id, formDataObj, { redirectTo: '/dashboard' });
 };
 
 export default function CredentialsSignInPage() {
   return (
     // preview-start
-    <SignInPage signIn={signIn} providers={providers} />
+    <SignInPage signIn={signInProvider} providers={providers} />
   )
 }
