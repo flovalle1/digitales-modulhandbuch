@@ -16,8 +16,8 @@ const NAVIGATION: Navigation = [
         title: 'Übersicht',
     },
     {
-        segment: 'dashboard',
-        title: 'Meine Kurse',
+        segment: 'backend',
+        title: 'Übersicht',
         icon: <DashboardIcon />,
     },
     {
@@ -28,12 +28,12 @@ const NAVIGATION: Navigation = [
         title: 'Bearbeiten',
     },
     {
-        segment: 'dashboard/courses',
+        segment: 'backend/courses',
         title: 'Kurse',
         icon: <StyleIcon />,
         children: [
             {
-                segment: 'sales',
+                segment: 'add',
                 title: 'Hinzufügen',
                 icon: <DescriptionIcon />,
             },
@@ -46,7 +46,7 @@ const NAVIGATION: Navigation = [
         ],
     },
     {
-        segment: 'dashboard/lecturers',
+        segment: 'backend/lecturers',
         title: 'Dozentenprofil',
         icon: <AccountCircleIcon />,
     },
@@ -66,7 +66,6 @@ export default function AdminLayout({
             >
                 {children}
             </AppProvider>
-
         </SessionProvider>
     );
 }
