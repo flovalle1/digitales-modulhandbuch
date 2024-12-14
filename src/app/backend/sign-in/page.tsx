@@ -1,6 +1,7 @@
 "use client";
 import { SignInPage, type AuthProvider } from '@toolpad/core/SignInPage';
 import { signIn } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 
 // preview-start
@@ -15,10 +16,12 @@ const signInProvider: (provider: AuthProvider, formData: FormData) => void = asy
   formData.forEach((value, key) => {
     formDataObj[key] = value.toString();
   });
-  await signIn(provider.id, formDataObj, { redirectTo: '/dashboard' });
+  const session = await signIn(provider.id, formDataObj);
+  console.log(session)
 };
 
 export default function CredentialsSignInPage() {
+  const router = useRouter()
   return (
     // preview-start
     <SignInPage signIn={signInProvider} providers={providers} />

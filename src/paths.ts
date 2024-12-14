@@ -4,4 +4,5 @@ export const paths = {
     veranstaltungsverzeichnis: '/common/veranstaltungsverzeichnis',
     dozenten: '/common/dozenten',
     dashboard: '/dashboard',
+    signIn: '/dashboard/sign-in',
 };

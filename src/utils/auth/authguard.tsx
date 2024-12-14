@@ -1,4 +1,5 @@
 "use client";
+import { paths } from '@/paths';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { ReactNode, useEffect } from 'react';
@@ -14,7 +15,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
     useEffect(() => {
         if (status === 'unauthenticated') {
-            router.push('dashboard/sign-in');
+            router.push(paths.signIn);
         }
     }, [status]);
 

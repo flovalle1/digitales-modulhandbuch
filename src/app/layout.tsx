@@ -15,10 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-
-      <AppRouterCacheProvider>
-        {children}
-      </AppRouterCacheProvider>
+      <body>
+        <AppRouterCacheProvider>
+          {children}
+        </AppRouterCacheProvider>
+      </body>
     </html>
   );
 }

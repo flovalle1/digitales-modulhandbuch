@@ -15,13 +15,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <body
-      style={{ backgroundColor: "#FFFFF1" }}
-    >
-      <ThemeProvider theme={theme}>
-        <TopNavigation />
-        {children}
-      </ThemeProvider>
-    </body>
+    <ThemeProvider theme={theme}>
+      <TopNavigation />
+      {children}
+    </ThemeProvider>
   );
 }
