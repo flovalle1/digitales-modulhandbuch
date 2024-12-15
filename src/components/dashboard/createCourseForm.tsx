@@ -45,7 +45,7 @@ const CreateCourseForm = () => {
             });
             setCourse(initialCourseState);
         } catch (error) {
-            notification.show('Fehler beim Anlegen des Kurses.', {
+            notification.show('Fehler beim Anlegen des Kurses:' + error, {
                 severity: "error",
                 autoHideDuration: 3000,
             });

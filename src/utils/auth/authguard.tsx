@@ -17,7 +17,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
         if (status === 'unauthenticated') {
             router.push(paths.signIn);
         }
-    }, [status]);
+    }, [status, router]);
 
     if (status === 'loading' || status === 'unauthenticated') {
         return <div>laden...</div>;

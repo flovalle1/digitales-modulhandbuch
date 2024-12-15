@@ -4,7 +4,7 @@ import { Stack } from '@mui/material';
 import { Course } from '@prisma/client';
 
 
-const rows_moch: Course[] = [
+export const rows_moch: Course[] = [
     {
         id: 1,
         title: "Introduction to Programming",
