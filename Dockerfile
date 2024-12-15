@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM node:20-alpine AS base
+FROM node:20-bookworm AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -9,8 +9,8 @@ FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-RUN apk add install openssl
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+RUN apt-get install -y openssl
 RUN npm ci
 
 
