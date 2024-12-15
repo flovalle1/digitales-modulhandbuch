@@ -1,9 +1,10 @@
 import CourseDetails from '@/components/CourseDetails';
+import { prisma } from '@/prisma';
 import { Stack } from '@mui/material';
 import { Course } from '@prisma/client';
 
 
-const rows: Course[] = [
+const rows_moch: Course[] = [
     {
         id: 1,
         title: "Introduction to Programming",
@@ -46,6 +47,9 @@ const rows: Course[] = [
     }
 ];
 
+const rows = await prisma.course.findMany();
+
+export const dynamic = 'force-dynamic'
 export default function Veranstaltungsverzeichnisse() {
     return (
 
