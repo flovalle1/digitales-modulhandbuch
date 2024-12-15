@@ -9,7 +9,7 @@ FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-RUN apk add install -y openssl
+RUN apk add install openssl
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
 RUN npm ci
 
