@@ -1,8 +1,12 @@
-"use client";
-import CreateCourseForm from '@/components/dashboard/createCourseForm';
+import CourseOverwiev from '@/components/dashboard/CourseOverview';
+import { prisma } from '@/prisma';
 
-export default function DashboardLayoutBasic() {
+export const dynamic = 'force-dynamic';
+
+export default async function DashboardLayoutBasic() {
+    const allCourses = await prisma.course.findMany();
+
     return (
-        <CreateCourseForm />
+        <CourseOverwiev courses={allCourses} />
     );
 }
