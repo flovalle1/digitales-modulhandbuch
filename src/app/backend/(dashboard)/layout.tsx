@@ -1,5 +1,6 @@
 
 
+import AuthGuard from '@/utils/auth/authguard';
 import { DashboardLayout, PageContainer } from '@toolpad/core';
 import * as React from 'react';
 
@@ -10,10 +11,12 @@ export default function Dashboard({
     children: React.ReactNode;
 }>) {
     return (
-        <DashboardLayout>
-            <PageContainer>
-                {children}
-            </PageContainer>
-        </DashboardLayout>
+        <AuthGuard>
+            <DashboardLayout>
+                <PageContainer>
+                    {children}
+                </PageContainer>
+            </DashboardLayout>
+        </AuthGuard>
     );
 }
