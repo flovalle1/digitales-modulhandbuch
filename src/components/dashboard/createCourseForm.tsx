@@ -23,8 +23,12 @@ const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     literature: ''
 };
 
-const CreateCourseForm = () => {
-    const [course, setCourse] = useState(initialCourseState);
+export interface CourseFormProps {
+    courseData?: Course,
+}
+
+const CreateCourseForm = ({ courseData }: CourseFormProps) => {
+    const [course, setCourse] = useState<Omit<Course, "id" | "createdAt" | "updatedAt">>(courseData ? courseData : initialCourseState);
     const notification = useNotifications();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
