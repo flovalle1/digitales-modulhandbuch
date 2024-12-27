@@ -24,12 +24,12 @@ const pages = [
     { name: 'Dozenten', link: paths.dozenten }
 ];
 
-const demoAutocomplete = [
-    { title: 'Grundlagen der Informatik', id: "1994" },
-    { title: 'Kursname 3', id: "fasd" },
-    { title: 'Testkurs', id: "asd" },
-    { title: 'Das ist ein Kursname', id: "afsdp" }
-]
+// const demoAutocomplete = [
+//     { title: 'Grundlagen der Informatik', id: "1994" },
+//     { title: 'Kursname 3', id: "fasd" },
+//     { title: 'Testkurs', id: "asd" },
+//     { title: 'Das ist ein Kursname', id: "afsdp" }
+// ]
 
 export default function TopNavigation() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

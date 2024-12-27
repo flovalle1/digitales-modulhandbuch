@@ -3,14 +3,12 @@ import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Course } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 
 export interface CourseOverwievProps {
     courses: Course[];
 }
 
 export default function CourseOverwiev({ courses }: CourseOverwievProps) {
-    const router = useRouter();
 
     const columns: GridColDef[] = [
 

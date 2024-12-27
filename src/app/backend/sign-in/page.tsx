@@ -17,11 +17,11 @@ const signInProvider: (provider: AuthProvider, formData: FormData) => void = asy
   formData.forEach((value, key) => {
     formDataObj[key] = value.toString();
   });
-  const session = await signIn(provider.id, { ...formDataObj, redirect: false });
+  await signIn(provider.id, { ...formDataObj, redirect: false });
 };
 
 export default function CredentialsSignInPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
