@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { CoursesContext } from "./courses-context";
 
 
+export const dynamic = 'force-dynamic';
 
 export const CoursesProvider = async ({ children }: { children: ReactNode }) => {
     const courses = await prisma.course.findMany();
