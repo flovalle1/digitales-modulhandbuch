@@ -1,3 +1,4 @@
+import { CoursesProvider } from '@/components/context/courses-provider';
 import TopNavigation from '@/components/TopNavigation';
 import { ThemeProvider } from "@mui/material";
 import type { Metadata } from "next";
@@ -16,8 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <ThemeProvider theme={theme}>
-      <TopNavigation />
-      {children}
+      <CoursesProvider>
+        <TopNavigation />
+        {children}
+      </CoursesProvider>
     </ThemeProvider>
   );
 }

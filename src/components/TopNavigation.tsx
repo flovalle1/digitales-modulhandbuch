@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import * as React from 'react';
+import { useCourses } from './context/courses-context';
 
 const pages = [
     { name: 'Zuordnungstabelle', link: paths.zuordnungstabelle },
@@ -32,6 +33,7 @@ const demoAutocomplete = [
 
 export default function TopNavigation() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const coursesCtx = useCourses();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -112,7 +114,7 @@ export default function TopNavigation() {
                         <Search>
                             <Autocomplete
                                 disablePortal
-                                options={demoAutocomplete}
+                                options={coursesCtx.courses}
                                 sx={{ width: 300, my: 2 }}
                                 getOptionLabel={(option) => option.title}
                                 renderInput={(params) => <TextField {...params} label="Kurs suchen" />}
