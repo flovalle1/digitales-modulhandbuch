@@ -17,10 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <ThemeProvider theme={theme}>
-      <CoursesProvider>
         <TopNavigation />
         {children}
-      </CoursesProvider>
     </ThemeProvider>
   );
 }

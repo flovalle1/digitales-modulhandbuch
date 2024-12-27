@@ -14,9 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { Course } from '@prisma/client';
 import Image from 'next/image';
 import * as React from 'react';
-import { useCourses } from './context/courses-context';
+import { getCourses } from '../actions/queries';
 
 const pages = [
     { name: 'Zuordnungstabelle', link: paths.zuordnungstabelle },
@@ -33,14 +34,13 @@ const pages = [
 
 export default function TopNavigation() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const coursesCtx = useCourses();
-
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+    const [courses, setCourses] = React.useState<Course[]>([]);
 
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -56,6 +56,14 @@ export default function TopNavigation() {
             width: 'auto',
         },
     }));
+
+    React.useEffect(() => {
+        const fetchCourses = async () => {
+            const coursesData = await getCourses();
+            setCourses(coursesData);
+        }
+        fetchCourses();
+    }, []);
 
     return (
         <AppBar position="static" sx={{ backgroundColor: '#272727' }}>
@@ -114,7 +122,7 @@ export default function TopNavigation() {
                         <Search>
                             <Autocomplete
                                 disablePortal
-                                options={coursesCtx.courses}
+                                options={courses}
                                 sx={{ width: 300, my: 2 }}
                                 getOptionLabel={(option) => option.title}
                                 renderInput={(params) => <TextField {...params} label="Kurs suchen" />}
