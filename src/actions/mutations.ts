@@ -9,3 +9,13 @@ export async function createCourse(courseData: Omit<Course, "id" | "createdAt" |
     });
     return resp;
 }
+
+export async function updateCourse(id: number, courseData: Omit<Course, "id" | "createdAt" | "updatedAt">): Promise<Course> {
+    const resp = await prisma.course.update({
+        where: {
+            id
+        },
+        data: courseData
+    });
+    return resp;
+}

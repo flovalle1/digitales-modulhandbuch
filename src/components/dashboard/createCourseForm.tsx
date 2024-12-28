@@ -1,5 +1,5 @@
 "use client";
-import { createCourse } from '@/actions/mutations';
+import { createCourse, updateCourse } from '@/actions/mutations';
 import { Button, Container, Grid2 as Grid, TextField } from '@mui/material';
 import { Course } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
@@ -30,6 +30,7 @@ export interface CourseFormProps {
 const CreateCourseForm = ({ courseData }: CourseFormProps) => {
     const [course, setCourse] = useState<Omit<Course, "id" | "createdAt" | "updatedAt">>(courseData ? courseData : initialCourseState);
     const notification = useNotifications();
+    const isEdit = Boolean(courseData);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -46,14 +47,23 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const resp = await createCourse(course);
-            notification.show(resp.title + ' wurde erfolgreich angelegt.', {
-                severity: "success",
-                autoHideDuration: 3000,
-            });
-            setCourse(initialCourseState);
+            let resp;
+            if (isEdit && courseData) {
+                resp = await updateCourse(courseData.id, course);
+                notification.show(resp.title + ' wurde erfolgreich aktualisiert.', {
+                    severity: "success",
+                    autoHideDuration: 3000,
+                });
+            } else {
+                resp = await createCourse(course);
+                notification.show(resp.title + ' wurde erfolgreich angelegt.', {
+                    severity: "success",
+                    autoHideDuration: 3000,
+                });
+                setCourse(initialCourseState);
+            }
         } catch (error) {
-            notification.show('Fehler beim Anlegen des Kurses:' + error, {
+            notification.show('Fehler beim ' + (isEdit ? 'Aktualisieren' : 'Anlegen') + ' des Kurses:' + error, {
                 severity: "error",
                 autoHideDuration: 3000,
             });
@@ -210,7 +220,7 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                     </Grid>
                     <Grid size={12}>
                         <Button type="submit" variant="contained" color="primary">
-                            Kurs erstellen
+                            {isEdit ? 'Kurs aktualisieren' : 'Kurs erstellen'}
                         </Button>
                     </Grid>
                 </Grid>
