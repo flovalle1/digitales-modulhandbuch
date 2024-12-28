@@ -7,7 +7,7 @@ type CourseDetailsProps = {
 
 export default function CourseDetails({ course }: CourseDetailsProps) {
     return (
-        <Card>
+        <Card id={course.id.toString()}>
             <CardContent>
                 <Typography variant="h5" component="div">
                     {course.title}
