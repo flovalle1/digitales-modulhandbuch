@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Course } from '@prisma/client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { getCourses } from '../actions/queries';
 
@@ -41,6 +42,7 @@ export default function TopNavigation() {
         setAnchorElNav(null);
     };
     const [courses, setCourses] = React.useState<Course[]>([]);
+    const router = useRouter();
 
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -125,6 +127,21 @@ export default function TopNavigation() {
                                 options={courses}
                                 sx={{ width: 300, my: 2 }}
                                 getOptionLabel={(option) => option.title}
+                                onChange={(event, value) => {
+                                    if (value) {
+                                        router.push(paths.course(value.id.toString()));
+                                    }
+                                }}
+                                renderOption={(props, option) => (
+                                    <Box component="li" {...props}>
+                                        <Box>
+                                            <Typography>{option.title}</Typography>
+                                            <Typography variant="caption" color="text.secondary">
+                                                {option.code} • {option.ects} ECTS • {option.lecturer}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                )}
                                 renderInput={(params) => <TextField {...params} label="Kurs suchen" />}
                             />
                         </Search>
