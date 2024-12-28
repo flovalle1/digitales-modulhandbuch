@@ -33,9 +33,13 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        // Convert numeric fields to numbers
+        const numericFields = ['ects', 'contactTimeInHours', 'selfStudyTimeInHours', 'workloadInHours'];
+        const processedValue = numericFields.includes(name) ? Number(value) : value;
+
         setCourse(prevCourse => ({
             ...prevCourse,
-            [name]: value
+            [name]: processedValue
         }));
     };
 
