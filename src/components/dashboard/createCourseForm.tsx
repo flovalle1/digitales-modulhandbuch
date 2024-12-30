@@ -1,9 +1,10 @@
 "use client";
 import { createCourse, updateCourse } from '@/actions/mutations';
-import { Button, Container, Grid2 as Grid, TextField } from '@mui/material';
-import { Course } from '@prisma/client';
+import { Box, Button, Checkbox, Chip, Container, FormControl, Grid2 as Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Assignment, Course } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useState } from 'react';
+import { getHeaderName } from '../config';
 
 const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     title: '',
@@ -29,8 +30,8 @@ const ITEM_PADDING_TOP = 8;
 const MenuProps = {
     PaperProps: {
         style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP + 200,
+            width: 350,
         },
     },
 };
@@ -44,7 +45,7 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
     const notification = useNotifications();
     const isEdit = Boolean(courseData);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         // Convert numeric fields to numbers
         const numericFields = ['ects', 'contactTimeInHours', 'selfStudyTimeInHours', 'workloadInHours'];
@@ -53,6 +54,14 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
         setCourse(prevCourse => ({
             ...prevCourse,
             [name]: processedValue
+        }));
+    };
+
+    const handleAssignmentsChange = (event: SelectChangeEvent<Assignment[]>) => {
+        const { value } = event.target;
+        setCourse(prevCourse => ({
+            ...prevCourse,
+            assignments: typeof value === 'string' ? value.split(',') as Assignment[] : value
         }));
     };
 
@@ -229,6 +238,38 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                             onChange={handleChange}
                             fullWidth
                         />
+                    </Grid>
+                    <Grid size={6}>
+                        <FormControl sx={{ width: '100%' }}>
+                            <InputLabel id="assignment-label">Zuordnungen</InputLabel>
+                            <Select
+                                labelId="assignment-label"
+                                name="assignments"
+                                multiple
+                                value={course.assignments}
+                                onChange={handleAssignmentsChange}
+                                input={<OutlinedInput id="assignment-label" label="Zuordnungen" />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                            <Chip key={value} label={getHeaderName(value)?.fieldOfStudy + ": " + getHeaderName(value)?.assignment} />
+                                        ))}
+                                    </Box>
+                                )}
+                                MenuProps={MenuProps}
+                            >
+                                {Object.values(Assignment).map((assignment) => (
+                                    <MenuItem
+                                        key={assignment}
+                                        value={assignment}
+                                    //style={getStyles(assignment, personassignment, theme)}
+                                    >
+                                        <Checkbox checked={course.assignments.includes(assignment)} />
+                                        {getHeaderName(assignment)?.fieldOfStudy + ": " + getHeaderName(assignment)?.assignment}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid size={12}>
                         <Button type="submit" variant="contained" color="primary">

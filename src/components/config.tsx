@@ -22,6 +22,20 @@ export const getFieldOfStudy = (id: string) => {
     }
 }
 
+
+export const getHeaderName = (field: string): { assignment: string, fieldOfStudy: string } | null => {
+    for (const fieldOfStudy of allTypeOfStudies) {
+        const column = fieldOfStudy.content.find(col => col.field === field);
+        if (column) {
+            return {
+                assignment: column.headerName || '',
+                fieldOfStudy: fieldOfStudy.id
+            };
+        }
+    }
+    return null;
+}
+
 export const cs: FieldOfStudy = {
     id: "Informatik",
     content: [
@@ -217,3 +231,5 @@ export const medic_cs: FieldOfStudy = {
         },
     ]
 }
+
+export const allTypeOfStudies = [cs, bio_cs, media_cs, medic_cs];
