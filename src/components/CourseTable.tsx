@@ -35,7 +35,8 @@ const rows: Course[] = [
         requirements: "None",
         literature: "Introduction to Programming by John Doe",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        assignments: []
     },
     {
         id: 2,
@@ -55,7 +56,8 @@ const rows: Course[] = [
         requirements: "Introduction to Programming",
         literature: "Data Structures by Jane Smith",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        assignments: []
     }
 ];
 
