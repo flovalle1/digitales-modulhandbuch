@@ -1,8 +1,8 @@
 "use client";
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Chip, Stack } from "@mui/material";
 import Fab from '@mui/material/Fab';
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowsProp, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import React from 'react';
 import { cs, FieldOfStudy, getFieldOfStudy } from './config';
 import TableDrawer from './TableDrawer';
@@ -41,12 +41,23 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
 
     function Toolbar() {
         return (
-            <Box display="flex" justifyContent="flex-start" alignItems="flex-start">
+            <Box display="flex" justifyContent="space-between" alignItems="center"
+                sx={{ width: '100%', p: 1 }}>
                 <Button
                     onClick={() => setDrawerOpen(true)}
+                    variant="contained"
                 >
                     Filter
                 </Button>
+                <GridToolbarQuickFilter
+                    quickFilterParser={(searchInput: string) =>
+                        searchInput
+                            .split(',')
+                            .map((value) => value.trim())
+                            .filter((value) => value !== '')
+                    }
+                />
+                <Chip color="primary" label={fieldOfStudy.id} />
             </Box>
         );
     }
