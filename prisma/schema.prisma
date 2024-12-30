@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Course {
-  id                   Int      @id @default(autoincrement())
+  id                   Int          @id @default(autoincrement())
   title                String
   typeOfCourse         String
   contactTimeInHours   Int
@@ -31,8 +31,9 @@ model Course {
   lecturer             String
   requirements         String?
   literature           String
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  assignments          Assignment[]
   //Lecturer    Lecturer @relation(fields: [id], references: [id])
 }
 
@@ -42,6 +43,52 @@ model Lecturer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   courses   String[]
+}
+
+enum Assignment {
+  mandatory_cs
+  mandatory_mathematics_cs
+  mandatory_proseminar_cs
+  elective_practical_cs
+  elective_theoretical_cs
+  elective_technical_cs
+  elective_info_cs
+  //IMFM 
+  //INFM1510 
+  //INFM2020
+  //INFM3110
+  //INFM3410
+  //INFM3310
+  //INFM2510
+
+  mandatory_bio_cs
+  mandatory_proseminar_bio_cs
+  elective_info_bio_cs
+  elective_bioinfo_bio_cs
+  //BIOINFM
+  //BIOINFM1510
+  //BIOINFM2210
+  //BIOINFM2510
+
+  mandatory_media_cs
+  mandatory_proseminar_media_cs
+  elective_mediascience_media_cs
+  elective_mediainfo_media_cs
+  elective_info_media_cs
+  //MEINFM
+  //MEINFM1510
+  //MEINFM2510
+  //MEINFM3220
+  //MEINFM3210
+
+  mandatory_medic_cs
+  mandatory_proseminar_medic_cs
+  elective_info_medic_cs
+  elective_mediabioinf_medic_cs
+  //MDZINFM
+  //MDZINFM1510
+  //MDZINFM2510
+  //MDZINFM3110
 }
 
 //___________________________________________________________________________________________//

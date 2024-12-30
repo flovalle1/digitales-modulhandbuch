@@ -9,6 +9,12 @@ export default async function Home(): Promise<JSX.Element> {
   const courses: Course[] = await prisma.course.findMany();
 
   const rows: GridRowsProp = courses.map((course) => {
+
+    let assignmentMap = {};
+    course.assignments.map((assignment) => {
+      assignmentMap = { ...assignmentMap, [assignment]: true }
+    });
+
     return {
       id: course.id,
       titel: course.title,
@@ -16,7 +22,7 @@ export default async function Home(): Promise<JSX.Element> {
       ects: course.ects,
       code: course.code,
       lecturer: course.lecturer,
-      mandatory: true
+      ...assignmentMap
     };
   });
 
