@@ -19,3 +19,12 @@ export async function updateCourse(id: number, courseData: Omit<Course, "id" | "
     });
     return resp;
 }
+
+export async function deleteCourse(id: number): Promise<Course> {
+    const resp = await prisma.course.delete({
+        where: {
+            id
+        }
+    });
+    return resp;
+}
