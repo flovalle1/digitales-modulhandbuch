@@ -22,7 +22,8 @@ const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     lecturer: '',
     requirements: '',
     literature: '',
-    assignments: []
+    assignments: [],
+    lecturerId: null
 };
 
 const ITEM_HEIGHT = 48;

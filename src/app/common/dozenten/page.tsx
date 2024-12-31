@@ -8,14 +8,12 @@ const rows: Lecturer[] = [
         name: 'John Doe',
         createdAt: new Date('2023-01-01T00:00:00Z'),
         updatedAt: new Date('2023-01-01T00:00:00Z'),
-        courses: ['Course 1', 'Course 2']
     },
     {
         id: 2,
         name: 'Jane Smith',
         createdAt: new Date('2023-02-01T00:00:00Z'),
         updatedAt: new Date('2023-02-01T00:00:00Z'),
-        courses: ['Course 3', 'Course 4']
     }
 ]
 

@@ -1,10 +1,14 @@
+"use client";
+import { paths } from '@/paths';
 import { Card, CardContent, Grid2 as Grid, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
-import { Lecturer } from '@prisma/client';
+import { Course, Lecturer } from '@prisma/client';
+import { useRouter } from 'next/router';
 
 
 
 
-export default function LecturerCard(lecturer: Lecturer) {
+export default function LecturerCard(lecturer: Lecturer, courses: Course[]) {
+    const router = useRouter();
     return (
         <Card>
             <CardContent>
@@ -14,10 +18,10 @@ export default function LecturerCard(lecturer: Lecturer) {
                     </Grid>
                     <Grid size={8}>
                         <List>
-                            {lecturer.courses.map((course) => (
-                                <ListItem key={course} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemText primary={course} secondary="CS101 · 6 ECTS · Sommersemester 2023" />
+                            {courses.map((course) => (
+                                <ListItem key={course.id} disablePadding>
+                                    <ListItemButton onClick={() => { router.push(paths.course(course.id.toString())) }}>
+                                        <ListItemText primary={course.title} secondary={`${course.code} · ${course.ects} ECTS · ${course.nextOffer}`} />
                                     </ListItemButton>
                                 </ListItem>
                             ))}

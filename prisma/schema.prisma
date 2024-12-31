@@ -34,7 +34,8 @@ model Course {
   createdAt            DateTime     @default(now())
   updatedAt            DateTime     @updatedAt
   assignments          Assignment[]
-  //Lecturer    Lecturer @relation(fields: [id], references: [id])
+  Lecturer             Lecturer?    @relation(fields: [lecturerId], references: [id])
+  lecturerId           Int?
 }
 
 model Lecturer {
@@ -42,7 +43,7 @@ model Lecturer {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  courses   String[]
+  courses   Course[]
 }
 
 enum Assignment {

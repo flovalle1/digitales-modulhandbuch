@@ -47,8 +47,21 @@ const NAVIGATION: Navigation = [
     },
     {
         segment: 'backend/lecturers',
-        title: 'Dozentenprofil',
+        title: 'Dozenten',
         icon: <AccountCircleIcon />,
+        children: [
+            {
+                segment: 'add',
+                title: 'Hinzufügen',
+                icon: <DescriptionIcon />,
+            },
+            {
+                segment: 'edit',
+                title: 'Bearbeiten',
+                icon: <DescriptionIcon />,
+                pattern: 'edit{/:lecturerId}*',
+            },
+        ],
     },
 ];
 
