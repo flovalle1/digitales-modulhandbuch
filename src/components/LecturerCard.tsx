@@ -1,13 +1,17 @@
 "use client";
 import { paths } from '@/paths';
+import { LecturerWithCourses } from '@/types';
 import { Card, CardContent, Grid2 as Grid, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
-import { Course, Lecturer } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 
 
+export interface LecturerCardProps {
+    lecturerWithCourses: LecturerWithCourses
+}
 
 
-export default function LecturerCard(lecturer: Lecturer, courses: Course[]) {
+export default function LecturerCard({ lecturerWithCourses }: LecturerCardProps) {
+    const { courses, ...lecturer } = lecturerWithCourses;
     const router = useRouter();
     return (
         <Card>

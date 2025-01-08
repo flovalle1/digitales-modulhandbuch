@@ -1,30 +1,25 @@
 import LecturerCard from '@/components/LecturerCard';
+import { prisma } from '@/prisma';
+import { LecturerWithCourses } from '@/types';
 import { Stack } from '@mui/material';
-import { Lecturer } from '@prisma/client';
 
 export const dynamic = 'force-dynamic';
 
-const rows: Lecturer[] = [
-    {
-        id: 1,
-        name: 'John Doe',
-        createdAt: new Date('2023-01-01T00:00:00Z'),
-        updatedAt: new Date('2023-01-01T00:00:00Z'),
-    },
-    {
-        id: 2,
-        name: 'Jane Smith',
-        createdAt: new Date('2023-02-01T00:00:00Z'),
-        updatedAt: new Date('2023-02-01T00:00:00Z'),
-    }
-]
 
-export default function Veranstaltungsverzeichnisse() {
+export default async function Veranstaltungsverzeichnisse() {
+    const lecturers: LecturerWithCourses[] = await prisma.lecturer.findMany({
+        include: {
+            courses: true
+        },
+    },
+    );
+
+
     return (
 
         <Stack spacing={5} sx={{ mx: 12, mt: 8 }}>
-            {rows.map((row) => (
-                <LecturerCard key={row.id} {...row} />
+            {lecturers.map((lecturer) => (
+                <LecturerCard lecturerWithCourses={lecturer} />
             ))}
         </Stack>
     );
