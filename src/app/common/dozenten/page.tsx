@@ -2,6 +2,8 @@ import LecturerCard from '@/components/LecturerCard';
 import { Stack } from '@mui/material';
 import { Lecturer } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 const rows: Lecturer[] = [
     {
         id: 1,
