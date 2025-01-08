@@ -2,7 +2,7 @@
 import { paths } from '@/paths';
 import { Card, CardContent, Grid2 as Grid, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { Course, Lecturer } from '@prisma/client';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 
