@@ -16,10 +16,9 @@ export default async function Veranstaltungsverzeichnisse() {
 
 
     return (
-
         <Stack spacing={5} sx={{ mx: 12, mt: 8 }}>
             {lecturers.map((lecturer) => (
-                <LecturerCard lecturerWithCourses={lecturer} />
+                <LecturerCard key={lecturer.id} lecturerWithCourses={lecturer} />
             ))}
         </Stack>
     );

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl"]
@@ -47,49 +41,65 @@ model Lecturer {
 }
 
 enum Assignment {
-  mandatory_cs
-  mandatory_mathematics_cs
-  mandatory_proseminar_cs
-  elective_practical_cs
-  elective_theoretical_cs
-  elective_technical_cs
-  elective_info_cs
-  //IMFM 
-  //INFM1510 
-  //INFM2020
-  //INFM3110
-  //INFM3410
-  //INFM3310
-  //INFM2510
+  mandatory_cs //IMFM
+  mandatory_mathematics_cs //INFM1510
+  mandatory_proseminar_cs //INFM2020
+  elective_practical_cs //INFM3110
+  elective_theoretical_cs //INFM3410
+  elective_technical_cs //INFM3310
+  elective_info_cs //INFM2510
 
-  mandatory_bio_cs
-  mandatory_proseminar_bio_cs
-  elective_info_bio_cs
-  elective_bioinfo_bio_cs
-  //BIOINFM
-  //BIOINFM1510
-  //BIOINFM2210
-  //BIOINFM2510
+  mandatory_bio_cs //BIOINFM
+  mandatory_proseminar_bio_cs //BIOINFM1510
+  elective_info_bio_cs //BIOINFM2210
+  elective_bioinfo_bio_cs //BIOINFM2510
 
-  mandatory_media_cs
-  mandatory_proseminar_media_cs
-  elective_mediascience_media_cs
-  elective_mediainfo_media_cs
-  elective_info_media_cs
-  //MEINFM
-  //MEINFM1510
-  //MEINFM2510
-  //MEINFM3220
-  //MEINFM3210
+  mandatory_media_cs //MEINFM
+  mandatory_proseminar_media_cs //MEINFM1510
+  elective_mediascience_media_cs //MEINFM2510
+  elective_mediainfo_media_cs //MEINFM3220
+  elective_info_media_cs //MEINFM3210
 
-  mandatory_medic_cs
-  mandatory_proseminar_medic_cs
-  elective_info_medic_cs
-  elective_mediabioinf_medic_cs
-  //MDZINFM
-  //MDZINFM1510
-  //MDZINFM2510
-  //MDZINFM3110
+  mandatory_medic_cs //MDZINFM
+  mandatory_proseminar_medic_cs //MDZINFM1510
+  elective_info_medic_cs //MDZINFM2510
+  elective_mediabioinf_medic_cs //MDZINFM3110
+
+  //___MASTER___
+  practical_cs_master //INFO-PRAK
+  theoretical_cs_master //INFO-THEO
+  technical_cs_master //INFO-TECH
+  info_cs_master //INFO-INFO
+
+  sequence_bio_cs_master //BIO-SEQ
+  structure_system_bio_cs_master //BIO-STRUK
+  bio_cs_master //BIO-SEM
+  research_bio_cs_master //BIO-BIO
+  practical_bio_cs_master //BIO-PRAK
+  practical_info_bio_cs_master //INFO-PRAK
+  theoretical_info_bio_cs_master //INFO-THEO
+  info_bio_cs_master //INFO-INFO
+
+  hci_media_production_media_cs_master //MEDI-HCI
+  web_internet_media_cs_master //MEDI-WEB
+  graphics_visual_media_cs_master //MEDI-VIS
+  multimedia_tech_media_cs_master //MEDI-MMT
+  media_cs_master //MEDI-MEDI
+  practical_media_cs_master //MEDI-PRAX
+  advanced_media_cs_info_master //MEDI-INFO
+  advanced_media_cs_application_master //MEDI-APPL
+
+  advanced_medic_cs_master //MEDZ-MEDINFO
+  advanced_bio_medic_cs_master //MEDZ-BIOINFO
+  research_medic_cs_master //MEDZ-RES
+  medic_cs_master //MEDZ-SEM
+  biomedical_medic_cs_master //MEDZ-BIOMED
+  medical_tech_medic_cs_master //MEDZ-MEDTECH
+  info_medic_cs_master //INFO-INFO
+
+  basics_ml_master //ML-FOUND
+  diverse_ml_master //ML-DIV
+  info_ml_master //ML-CS
 }
 
 //___________________________________________________________________________________________//
