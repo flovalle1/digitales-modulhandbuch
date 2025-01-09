@@ -1,9 +1,10 @@
 "use client";
 import { createCourse, updateCourse } from '@/actions/mutations';
+import { getLecturers } from '@/actions/queries';
 import { Box, Button, Checkbox, Chip, Container, FormControl, Grid2 as Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material';
-import { Assignment, Course } from '@prisma/client';
+import { Assignment, Course, Lecturer } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getHeaderName } from '../config';
 
 const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
@@ -43,8 +44,13 @@ export interface CourseFormProps {
 
 const CreateCourseForm = ({ courseData }: CourseFormProps) => {
     const [course, setCourse] = useState<Omit<Course, "id" | "createdAt" | "updatedAt">>(courseData ? courseData : initialCourseState);
+    const [lecturers, setLecturers] = useState<Lecturer[]>([]);
     const notification = useNotifications();
     const isEdit = Boolean(courseData);
+
+    useEffect(() => {
+        getLecturers().then(data => setLecturers(data));
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -63,6 +69,13 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
         setCourse(prevCourse => ({
             ...prevCourse,
             assignments: typeof value === 'string' ? value.split(',') as Assignment[] : value
+        }));
+    };
+
+    const handleLecturerChange = (event: SelectChangeEvent<number>) => {
+        setCourse(prevCourse => ({
+            ...prevCourse,
+            lecturerId: event.target.value as number
         }));
     };
 
@@ -223,13 +236,22 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                         />
                     </Grid>
                     <Grid size={6}>
-                        <TextField
-                            name="lecturer"
-                            label="Dozent"
-                            value={course.lecturer}
-                            onChange={handleChange}
-                            fullWidth
-                        />
+                        <FormControl sx={{ width: '100%' }}>
+                            <InputLabel id="lecturer-label">Dozent</InputLabel>
+                            <Select
+                                labelId="lecturer-label"
+                                name="lecturerId"
+                                value={course.lecturerId || ''}
+                                onChange={handleLecturerChange}
+                                fullWidth
+                            >
+                                {lecturers.map((lecturer) => (
+                                    <MenuItem key={lecturer.id} value={lecturer.id}>
+                                        {lecturer.name /* adapt property as needed */}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid size={6}>
                         <TextField
