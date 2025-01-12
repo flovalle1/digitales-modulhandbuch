@@ -45,7 +45,7 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
         } else {
             setFilteredRows(rows);
         }
-    }, [filterOption]);
+    }, [filterOption, rows]);
 
     function Toolbar() {
         return (

@@ -1,5 +1,6 @@
 'use client';
 import { deleteCourse } from '@/actions/mutations';
+import { CourseWithLecturer } from '@/types';
 import { Delete } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -9,12 +10,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Course } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useState } from 'react';
 
 export interface CourseOverwievProps {
-    courses: Course[];
+    courses: CourseWithLecturer[];
 }
 
 export default function CourseOverwiev({ courses }: CourseOverwievProps) {

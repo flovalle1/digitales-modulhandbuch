@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         const courses: Course[] = await prisma.course.findMany();
         const { semester: currentSemester, year: currentYear } = getCurrentSemester();
         console.log("Current Semester: ", currentSemester, " Current Year: ", currentYear);
-        const updates = courses.map(async (course) => {
+        courses.map(async (course) => {
             if (course.nextOfferYear <= currentYear && course.nextOfferSemester === currentSemester) {
                 console.log("Updating Course: ", course.id);
                 const { semester, year } = increaseSemester(course.nextOfferSemester, course.nextOfferYear, course.semesterPeriod);
