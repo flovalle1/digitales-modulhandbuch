@@ -20,3 +20,14 @@ export function increaseSemester(semester: Semester, year: number, amount: numbe
     }
     return { semester, year };
 }
+
+export function getCurrentSemester(): { semester: Semester; year: number } {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    if (month > 3 && month <= 9) {
+        return { semester: Semester.Sommersemester, year };
+    } else {
+        return { semester: Semester.Wintersemester, year };
+    }
+}
