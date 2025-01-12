@@ -18,11 +18,11 @@ model Course {
   teachType            String
   ects                 Int
   code                 String
-  lastOfferSemester    Semester
-  lastOfferYear        Int
-  nextOfferSemester    Semester
-  nextOfferYear        Int
-  semesterPeriod       Int
+  lastOfferSemester    Semester     @default(Sommersemester)
+  lastOfferYear        Int          @default(2000)
+  nextOfferSemester    Semester     @default(Sommersemester)
+  nextOfferYear        Int          @default(2000)
+  semesterPeriod       Int          @default(0)
   contents             String
   qualificationGoals   String
   lecturer             String

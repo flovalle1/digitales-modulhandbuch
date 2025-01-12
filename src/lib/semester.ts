@@ -1,5 +1,5 @@
 
-import { Course } from "@prisma/client";
+import { Course, Semester } from "@prisma/client";
 
 export function stringifyLastOffer(course: Course): string {
     return `${course.lastOfferSemester} ${course.lastOfferYear}`;
@@ -9,3 +9,14 @@ export function stringifyNextOffer(course: Course): string {
     return `${course.nextOfferSemester} ${course.nextOfferYear}`;
 }
 
+export function increaseSemester(semester: Semester, year: number, amount: number = 1) {
+    for (let i = 0; i < amount; i++) {
+        if (semester === Semester.Sommersemester) {
+            semester = Semester.Wintersemester;
+            year++;
+        } else {
+            semester = Semester.Sommersemester;
+        }
+    }
+    return { semester, year };
+}
