@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     const validApiKey = process.env.CRONJOB_API_KEY;
-    const providedKey = request.headers.get('API-KEY');
+    const providedKey = request.headers.get('x-api-key');
 
     if (!validApiKey || providedKey !== validApiKey) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -14,11 +14,13 @@ export async function POST(request: Request) {
     try {
         const courses: Course[] = await prisma.course.findMany();
         const { semester: currentSemester, year: currentYear } = getCurrentSemester();
-
+        console.log("Current Semester: ", currentSemester, " Current Year: ", currentYear);
         const updates = courses.map(async (course) => {
             if (course.nextOfferYear <= currentYear && course.nextOfferSemester === currentSemester) {
+                console.log("Updating Course: ", course.id);
                 const { semester, year } = increaseSemester(course.nextOfferSemester, course.nextOfferYear, course.semesterPeriod);
-                prisma.course.update({
+                console.log("New Semester: ", semester, " New Year: ", year);
+                await prisma.course.update({
                     where: {
                         id: course.id
                     },
@@ -31,7 +33,6 @@ export async function POST(request: Request) {
                 });
             }
         });
-        await Promise.all(updates);
         return NextResponse.json({ message: 'Semester updated successfully.' }, { status: 200 });
 
     } catch (error) {
