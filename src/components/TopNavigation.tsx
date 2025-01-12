@@ -1,6 +1,7 @@
 "use client";
 import theme from '@/app/theme';
 import { paths } from '@/paths';
+import { CourseWithLecturer } from '@/types';
 import { Person } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Autocomplete, TextField } from '@mui/material';
@@ -14,7 +15,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Course } from '@prisma/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
@@ -41,7 +41,7 @@ export default function TopNavigation() {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-    const [courses, setCourses] = React.useState<Course[]>([]);
+    const [courses, setCourses] = React.useState<CourseWithLecturer[]>([]);
     const router = useRouter();
 
     const Search = styled('div')(({ theme }) => ({
@@ -137,7 +137,7 @@ export default function TopNavigation() {
                                         <Box>
                                             <Typography>{option.title}</Typography>
                                             <Typography variant="caption" color="text.secondary">
-                                                {option.code} • {option.ects} ECTS • {option.lecturer}
+                                                {option.code} • {option.ects} ECTS • {option.lecturer?.name}
                                             </Typography>
                                         </Box>
                                     </Box>

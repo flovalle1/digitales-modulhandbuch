@@ -1,10 +1,17 @@
 "use server";
 
 import { prisma } from "@/prisma";
-import { Course, Lecturer } from "@prisma/client";
+import { CourseWithLecturer } from "@/types";
+import { Lecturer } from "@prisma/client";
 
-export async function getCourses(): Promise<Course[]> {
-    const resp = await prisma.course.findMany();
+export async function getCourses(): Promise<CourseWithLecturer[]> {
+    const resp = await prisma.course.findMany(
+        {
+            include: {
+                lecturer: true,
+            }
+        }
+    );
     return resp;
 }
 

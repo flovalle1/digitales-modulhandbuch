@@ -23,7 +23,6 @@ const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     semesterPeriod: 0,
     contents: '',
     qualificationGoals: '',
-    lecturer: '',
     requirements: '',
     literature: '',
     assignments: [],

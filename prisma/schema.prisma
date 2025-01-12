@@ -25,13 +25,12 @@ model Course {
   semesterPeriod       Int          @default(0)
   contents             String
   qualificationGoals   String
-  lecturer             String
   requirements         String?
   literature           String
   createdAt            DateTime     @default(now())
   updatedAt            DateTime     @updatedAt
   assignments          Assignment[]
-  Lecturer             Lecturer?    @relation(fields: [lecturerId], references: [id])
+  lecturer             Lecturer?    @relation(fields: [lecturerId], references: [id])
   lecturerId           Int?
 }
 

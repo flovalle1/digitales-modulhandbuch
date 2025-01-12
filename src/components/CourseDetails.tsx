@@ -1,9 +1,9 @@
 import { stringifyLastOffer, stringifyNextOffer } from '@/lib/semester';
+import { CourseWithLecturer } from '@/types';
 import { Card, CardContent, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
-import { Course } from "@prisma/client";
 
 type CourseDetailsProps = {
-    course: Course;
+    course: CourseWithLecturer;
 };
 
 export default function CourseDetails({ course }: CourseDetailsProps) {
@@ -66,7 +66,7 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                         </TableRow>
                         <TableRow>
                             <TableCell>Dozent/in</TableCell>
-                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.lecturer}</TableCell>
+                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.lecturer?.name}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Literatur</TableCell>
