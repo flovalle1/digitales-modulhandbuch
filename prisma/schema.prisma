@@ -18,8 +18,11 @@ model Course {
   teachType            String
   ects                 Int
   code                 String
-  lastOffer            String?
-  nextOffer            String
+  lastOfferSemester    Semester
+  lastOfferYear        Int
+  nextOfferSemester    Semester
+  nextOfferYear        Int
+  semesterPeriod       Int
   contents             String
   qualificationGoals   String
   lecturer             String
@@ -38,6 +41,11 @@ model Lecturer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   courses   Course[]
+}
+
+enum Semester {
+  Sommersemester
+  Wintersemester
 }
 
 enum Assignment {

@@ -1,14 +1,13 @@
 "use client";
+import { stringifyNextOffer } from '@/lib/semester';
 import { paths } from '@/paths';
 import { LecturerWithCourses } from '@/types';
 import { Card, CardContent, Grid2 as Grid, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-
 export interface LecturerCardProps {
     lecturerWithCourses: LecturerWithCourses
 }
-
 
 export default function LecturerCard({ lecturerWithCourses }: LecturerCardProps) {
     const { courses, ...lecturer } = lecturerWithCourses;
@@ -25,7 +24,7 @@ export default function LecturerCard({ lecturerWithCourses }: LecturerCardProps)
                             {courses.map((course) => (
                                 <ListItem key={course.id} disablePadding>
                                     <ListItemButton onClick={() => { router.push(paths.course(course.id.toString())) }}>
-                                        <ListItemText primary={course.title} secondary={`${course.code} · ${course.ects} ECTS · ${course.nextOffer}`} />
+                                        <ListItemText primary={course.title} secondary={`${course.code} · ${course.ects} ECTS · ${stringifyNextOffer(course)}`} />
                                     </ListItemButton>
                                 </ListItem>
                             ))}

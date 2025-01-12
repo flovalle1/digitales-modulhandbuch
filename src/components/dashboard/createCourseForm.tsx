@@ -1,8 +1,8 @@
 "use client";
 import { createCourse, updateCourse } from '@/actions/mutations';
 import { getLecturers } from '@/actions/queries';
-import { Box, Button, Checkbox, Chip, Container, FormControl, Grid2 as Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material';
-import { Assignment, Course, Lecturer } from '@prisma/client';
+import { Box, Button, Checkbox, Chip, Container, FormControl, Grid2 as Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip } from '@mui/material';
+import { Assignment, Course, Lecturer, Semester } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useEffect, useState } from 'react';
 import { getHeaderName } from '../config';
@@ -16,8 +16,11 @@ const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     teachType: '',
     ects: 0,
     code: '',
-    lastOffer: '',
-    nextOffer: '',
+    lastOfferSemester: Semester.Sommersemester,
+    lastOfferYear: 2000,
+    nextOfferSemester: Semester.Sommersemester,
+    nextOfferYear: 2000,
+    semesterPeriod: 0,
     contents: '',
     qualificationGoals: '',
     lecturer: '',
@@ -38,6 +41,8 @@ const MenuProps = {
     },
 };
 
+const semesterOptions = [Semester.Sommersemester, Semester.Wintersemester];
+
 export interface CourseFormProps {
     courseData?: Course,
 }
@@ -52,10 +57,10 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
         getLecturers().then(data => setLecturers(data));
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent) => {
         const { name, value } = e.target;
         // Convert numeric fields to numbers
-        const numericFields = ['ects', 'contactTimeInHours', 'selfStudyTimeInHours', 'workloadInHours'];
+        const numericFields = ['ects', 'contactTimeInHours', 'selfStudyTimeInHours', 'workloadInHours', 'nextOfferYear', 'lastOfferYear', 'semesterPeriod'];
         const processedValue = numericFields.includes(name) ? Number(value) : value;
 
         setCourse(prevCourse => ({
@@ -180,29 +185,76 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                             name="workloadInHours"
                             label="Gesamter Workload"
                             type="number"
-                            value={course.workloadInHours}
-                            onChange={handleChange}
+                            value={course.contactTimeInHours + course.selfStudyTimeInHours}
                             fullWidth
                         />
                     </Grid>
-                    <Grid size={6}>
+                    <Grid size={3}>
+                        <FormControl fullWidth>
+                            <InputLabel>Letztes Angebot (Semester)</InputLabel>
+                            <Select
+                                name="lastOfferSemester"
+                                value={course.lastOfferSemester}
+                                onChange={handleChange}
+                                label="Letztes Angebot (Semester)"
+                            >
+                                {semesterOptions.map((sem) => (
+                                    <MenuItem key={sem} value={sem}>
+                                        {sem}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid size={2}>
                         <TextField
-                            name="lastOffer"
-                            label="Letztes Angebot (Semester)"
-                            value={course.lastOffer}
+                            name="lastOfferYear"
+                            label="Letztes Angebot (Jahr)"
+                            value={course.lastOfferYear}
                             onChange={handleChange}
+                            type="number"
                             fullWidth
                         />
                     </Grid>
-                    <Grid size={6}>
+                    <Grid size={3}>
+                        <FormControl fullWidth>
+                            <InputLabel>Nächstes Angebot (Semester)</InputLabel>
+                            <Select
+                                name="nextOfferSemester"
+                                value={course.nextOfferSemester}
+                                onChange={handleChange}
+                                label="Nächstes Angebot (Semester)"
+                            >
+                                {semesterOptions.map((sem) => (
+                                    <MenuItem key={sem} value={sem}>
+                                        {sem}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid size={2}>
                         <TextField
-                            name="nextOffer"
-                            label="Nächstes Angebot (Semester)"
-                            value={course.nextOffer}
+                            name="nextOfferYear"
+                            label="Nächstes Angebot (Jahr)"
+                            value={course.nextOfferYear}
                             onChange={handleChange}
+                            type="number"
                             fullWidth
                         />
                     </Grid>
+                    <Tooltip title="In welchem Semesterrythmus wird der Kurs angeboten? 0 entspricht keinem regelmäßigen Angebot. 1 würde heißen jedes Semester. 2 jedes zweite Semester usw.">
+                        <Grid size={2}>
+                            <TextField
+                                name="semesterPeriod"
+                                label="Semesterperiode"
+                                value={course.semesterPeriod}
+                                onChange={handleChange}
+                                type="number"
+                                fullWidth
+                            />
+                        </Grid>
+                    </Tooltip>
                     <Grid size={12}>
                         <TextField
                             minRows={4}
@@ -241,13 +293,14 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                             <Select
                                 labelId="lecturer-label"
                                 name="lecturerId"
+                                input={<OutlinedInput id="lecturer-label" label="Dozent" />}
                                 value={course.lecturerId || ''}
                                 onChange={handleLecturerChange}
                                 fullWidth
                             >
                                 {lecturers.map((lecturer) => (
                                     <MenuItem key={lecturer.id} value={lecturer.id}>
-                                        {lecturer.name /* adapt property as needed */}
+                                        {lecturer.name}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -285,7 +338,6 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                                     <MenuItem
                                         key={assignment}
                                         value={assignment}
-                                    //style={getStyles(assignment, personassignment, theme)}
                                     >
                                         <Checkbox checked={course.assignments.includes(assignment)} />
                                         {getHeaderName(assignment)?.fieldOfStudy + ": " + getHeaderName(assignment)?.assignment}

@@ -1,3 +1,4 @@
+import { stringifyLastOffer, stringifyNextOffer } from '@/lib/semester';
 import { Card, CardContent, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { Course } from "@prisma/client";
 
@@ -73,11 +74,11 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                         </TableRow>
                         <TableRow>
                             <TableCell>Zuletzt Angeboten</TableCell>
-                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.lastOffer}</TableCell>
+                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{stringifyLastOffer(course)}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Geplant für</TableCell>
-                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.nextOffer}</TableCell>
+                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{stringifyNextOffer(course)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
