@@ -1,7 +1,9 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Box, Card, Drawer, IconButton, Stack, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Box, Card, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Assignment } from '@prisma/client';
 import React from 'react';
-import { filterOption } from './AssignmentTable';
+import { FilterOption } from './AssignmentTable';
+import { getHeaderName } from './config';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -29,8 +31,8 @@ function CustomTabPanel(props: TabPanelProps) {
 export interface TableDrawerProps {
     open: boolean;
     onClose: () => void;
-    filters: filterOption;
-    changeFilter: (filter: filterOption) => void;
+    filters: FilterOption;
+    changeFilter: (filter: FilterOption) => void;
 }
 
 export default function TableDrawer({ open, onClose, filters, changeFilter }: TableDrawerProps) {
@@ -44,7 +46,15 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
         event: React.MouseEvent<HTMLElement>,
         newAlignment: string,
     ) => {
-        changeFilter({ key: newAlignment });
+        changeFilter({ ...filters, key: newAlignment });
+    };
+
+    const handleAssignmentsChange = (event: SelectChangeEvent<string[]>) => {
+        const value = event.target.value;
+        changeFilter({
+            ...filters,
+            assignments: typeof value === 'string' ? value.split(',') : value
+        });
     };
 
     return (
@@ -109,6 +119,20 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                             <ToggleButton value="machine-learning-master">Machine Learning</ToggleButton>
                         </ToggleButtonGroup>
                     </CustomTabPanel>
+
+                    <Select
+                        value={filters.assignments || []}
+                        onChange={handleAssignmentsChange}
+                    >
+                        {Object.values(Assignment).map((assignment) => (
+                            <MenuItem
+                                key={assignment}
+                                value={assignment}
+                            >
+                                {getHeaderName(assignment)?.fieldOfStudy + ": " + getHeaderName(assignment)?.assignment}
+                            </MenuItem>
+                        ))}
+                    </Select>
                 </Card>
             </Stack>
         </Drawer>

@@ -21,15 +21,17 @@ const columns: GridColDef[] = [
     { field: 'lecturer', headerName: 'Dozent', width: 150 },
 ];
 
-export type filterOption = {
-    key: string,
+export type FilterOption = {
+    key: string;
+    assignments: string[];
 }
 
 export default function AssignmentTable({ rows }: AssignmentTableProps) {
     const [fieldOfStudy, setFieldOfStudy] = React.useState<FieldOfStudy>(cs);
     const [extendedColumns, setExtendedColumns] = React.useState<GridColDef[]>([...columns, ...cs.content]);
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const [filterOption, setFilterOption] = React.useState<filterOption>({ key: 'cs' })
+    const [filterOption, setFilterOption] = React.useState<FilterOption>({ key: 'cs', assignments: [] }); // updated
+    const [filteredRows, setFilteredRows] = React.useState(rows);
 
     React.useEffect(() => {
         setExtendedColumns([...columns, ...fieldOfStudy.content]);
@@ -37,6 +39,12 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
 
     React.useEffect(() => {
         setFieldOfStudy(getFieldOfStudy(filterOption.key));
+
+        if (filterOption.assignments?.length) {
+            setFilteredRows(rows.filter((row) => filterOption.assignments.every((assignment) => row[assignment])));
+        } else {
+            setFilteredRows(rows);
+        }
     }, [filterOption]);
 
     function Toolbar() {
@@ -72,7 +80,7 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
             />
 
             <div style={{ width: '100%' }}>
-                <DataGrid disableColumnMenu rows={rows} columns={extendedColumns} slots={{ toolbar: Toolbar }} />
+                <DataGrid disableColumnMenu rows={filteredRows} columns={extendedColumns} slots={{ toolbar: Toolbar }} />
             </div>
 
             <Fab

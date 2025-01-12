@@ -1,12 +1,18 @@
 import AssignmentTable from "@/components/AssignmentTable";
 import { prisma } from "@/prisma";
+import { CourseWithLecturer } from "@/types";
 import { GridRowsProp } from "@mui/x-data-grid";
-import { Course } from "@prisma/client";
 
 
 export const dynamic = 'force-dynamic';
 export default async function Home(): Promise<JSX.Element> {
-  const courses: Course[] = await prisma.course.findMany();
+  const courses: CourseWithLecturer[] = await prisma.course.findMany(
+    {
+      include: {
+        lecturer: true,
+      }
+    }
+  );
 
   const rows: GridRowsProp = courses.map((course) => {
 
