@@ -27,7 +27,7 @@ export default async function Home(): Promise<JSX.Element> {
       teachtype: course.teachType,
       ects: course.ects,
       code: course.code,
-      lecturer: course.lecturer,
+      lecturer: course.lecturer?.name,
       ...assignmentMap
     };
   });

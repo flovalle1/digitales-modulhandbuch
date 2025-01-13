@@ -1,7 +1,8 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Box, Card, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import { Assignment } from '@prisma/client';
+import { Box, Card, CardContent, CardHeader, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Assignment, Lecturer } from '@prisma/client';
 import React from 'react';
+import { getLecturers } from '../actions/queries';
 import { FilterOption } from './AssignmentTable';
 import { getHeaderName } from './config';
 
@@ -37,6 +38,15 @@ export interface TableDrawerProps {
 
 export default function TableDrawer({ open, onClose, filters, changeFilter }: TableDrawerProps) {
     const [tabValue, setTabValue] = React.useState(0);
+    const [lectures, setLectures] = React.useState<Lecturer[]>([]);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const lecData = await getLecturers();
+            setLectures(lecData);
+        }
+        fetchData();
+    }, []);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
@@ -57,15 +67,22 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
         });
     };
 
+    const handleLecturerChange = (event: SelectChangeEvent) => {
+        const selectedLecturer = lectures.find(lecturer => lecturer.name == event.target.value);
+        console.log(event.target.value);
+        console.log(selectedLecturer);
+        changeFilter({ ...filters, lecturer: selectedLecturer || null });
+    }
+
     return (
         <Drawer
             variant="persistent"
             anchor="left"
             open={open}
             sx={{
-                width: 340,
+                width: 500,
                 '& .MuiDrawer-paper': {
-                    width: 340,
+                    width: 500,
                     boxSizing: 'border-box',
                     p: 2
                 },
@@ -73,13 +90,17 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
         >
             <Stack spacing={2}>
                 <Stack direction="row" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h5">Filter</Typography>
+                    <Typography variant="h4" sx={{ textAlign: 'center' }}>Filter</Typography>
                     <IconButton onClick={onClose}>
                         <ChevronLeftIcon />
                     </IconButton>
                 </Stack>
 
                 <Card sx={{ p: 2 }}>
+                    <CardHeader
+                        title="Studiengang"
+                        sx={{ textAlign: 'center' }}
+                    />
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', justifyContent: 'center', display: 'flex' }}>
                         <Tabs value={tabValue} onChange={handleTabChange}>
                             <Tab label="Bachelor" />
@@ -119,20 +140,44 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                             <ToggleButton value="machine-learning-master">Machine Learning</ToggleButton>
                         </ToggleButtonGroup>
                     </CustomTabPanel>
-
-                    <Select
-                        value={filters.assignments || []}
-                        onChange={handleAssignmentsChange}
-                    >
-                        {Object.values(Assignment).map((assignment) => (
-                            <MenuItem
-                                key={assignment}
-                                value={assignment}
-                            >
-                                {getHeaderName(assignment)?.fieldOfStudy + ": " + getHeaderName(assignment)?.assignment}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                </Card>
+                <Card >
+                    <CardHeader title="Anrechenbarkeit" sx={{ textAlign: 'center' }} />
+                    <CardContent>
+                        <Select
+                            value={filters.assignments || []}
+                            onChange={handleAssignmentsChange}
+                            fullWidth
+                        >
+                            {Object.values(Assignment).map((assignment) => (
+                                <MenuItem
+                                    key={assignment}
+                                    value={assignment}
+                                >
+                                    {getHeaderName(assignment)?.fieldOfStudy + ": " + getHeaderName(assignment)?.assignment}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardHeader title="Dozent" sx={{ textAlign: 'center' }} />
+                    <CardContent>
+                        <Select
+                            value={filters.lecturer?.name}
+                            onChange={handleLecturerChange}
+                            fullWidth
+                        >
+                            {lectures.map((lecturer) => (
+                                <MenuItem
+                                    key={lecturer.id}
+                                    value={lecturer.name}
+                                >
+                                    {lecturer.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </CardContent>
                 </Card>
             </Stack>
         </Drawer>
