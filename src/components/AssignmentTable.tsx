@@ -1,4 +1,5 @@
 "use client";
+import { paths } from '@/paths';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { Box, Button, Chip, Stack } from "@mui/material";
 import Fab from '@mui/material/Fab';
@@ -92,6 +93,10 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
                     columns={extendedColumns}
                     hideFooterSelectedRowCount
                     slots={{ toolbar: Toolbar }}
+                    disableRowSelectionOnClick
+                    onRowClick={(params) => {
+                        window.location.href = paths.singleCourse(params.row.id as string);
+                    }}
                 />
             </div>
 

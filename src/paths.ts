@@ -6,4 +6,5 @@ export const paths = {
     dozenten: '/common/dozenten',
     dashboard: '/backend',
     signIn: '/backend/sign-in',
+    singleCourse: (id: string) => `/backend/zuordnungstabelle/${id}`
 };
