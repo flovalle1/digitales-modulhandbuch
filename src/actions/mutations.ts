@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/prisma";
-import { Course, Lecturer } from "@prisma/client";
+import { Course, CourseContent, Lecturer } from "@prisma/client";
 
 export async function createCourse(courseData: Omit<Course, "id" | "createdAt" | "updatedAt">): Promise<Course> {
     const resp = await prisma.course.create({
@@ -48,6 +48,35 @@ export async function updateLecturer(id: number, lecturerData: Omit<Lecturer, "i
 
 export async function deleteLecturer(id: number): Promise<Lecturer> {
     const resp = await prisma.lecturer.delete({
+        where: {
+            id
+        }
+    });
+    return resp;
+}
+
+export async function createCourseContent(courseId: number, contentData: Omit<CourseContent, "id" | "createdAt" | "updatedAt" | "courseId">): Promise<CourseContent> {
+    const resp = await prisma.courseContent.create({
+        data: {
+            ...contentData,
+            courseId
+        }
+    });
+    return resp;
+}
+
+export async function updateCourseContent(id: number, contentData: Partial<Omit<CourseContent, "id" | "createdAt" | "updatedAt" | "courseId">>): Promise<CourseContent> {
+    const resp = await prisma.courseContent.update({
+        where: {
+            id
+        },
+        data: contentData
+    });
+    return resp;
+}
+
+export async function deleteCourseContent(id: number): Promise<CourseContent> {
+    const resp = await prisma.courseContent.delete({
         where: {
             id
         }

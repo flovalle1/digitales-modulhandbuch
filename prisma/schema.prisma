@@ -9,32 +9,50 @@ datasource db {
 }
 
 model Course {
-  id                   Int          @id @default(autoincrement())
+  id                   Int             @id @default(autoincrement())
   title                String
   typeOfCourse         String
   contactTimeInHours   Int
   selfStudyTimeInHours Int
   workloadInHours      Int
   durationInSemester   Int
-  courseLanguage       Language     @default(Deutsch)
+  courseLanguage       Language        @default(Deutsch)
   typeOfExamination    String
   teachType            String
   ects                 Int
   code                 String
-  lastOfferSemester    Semester     @default(Sommersemester)
-  lastOfferYear        Int          @default(2000)
-  nextOfferSemester    Semester     @default(Sommersemester)
-  nextOfferYear        Int          @default(2000)
-  semesterPeriod       Int          @default(0)
+  lastOfferSemester    Semester        @default(Sommersemester)
+  lastOfferYear        Int             @default(2000)
+  nextOfferSemester    Semester        @default(Sommersemester)
+  nextOfferYear        Int             @default(2000)
+  semesterPeriod       Int             @default(0)
   contents             String
   qualificationGoals   String
   requirements         String?
   literature           String
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime     @updatedAt
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
   assignments          Assignment[]
-  lecturer             Lecturer?    @relation(fields: [lecturerId], references: [id])
+  lecturer             Lecturer?       @relation(fields: [lecturerId], references: [id])
   lecturerId           Int?
+  courseContent        CourseContent[]
+}
+
+model CourseContent {
+  id                    Int      @id @default(autoincrement())
+  title                 String
+  teachingMethod        String
+  status                String
+  creditPoints          Int
+  expectedHoursPerWeek  Int
+  examType              String
+  examDurationInMinutes Int
+  grading               String
+  gradingShareInPercent Float
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  course                Course   @relation(fields: [courseId], references: [id])
+  courseId              Int
 }
 
 model Lecturer {

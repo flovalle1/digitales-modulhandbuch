@@ -1,8 +1,10 @@
 "use client";
-import { createCourse, updateCourse } from '@/actions/mutations';
+import { createCourse, createCourseContent, deleteCourseContent, updateCourse, updateCourseContent } from '@/actions/mutations';
 import { getLecturers } from '@/actions/queries';
-import { Box, Button, Checkbox, Chip, Container, FormControl, Grid2 as Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip } from '@mui/material';
-import { Assignment, Course, Language, Lecturer, Semester } from '@prisma/client';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Box, Button, Checkbox, Chip, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid2 as Grid, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip } from '@mui/material';
+import { Assignment, Course, CourseContent, Language, Lecturer, Semester } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useEffect, useState } from 'react';
 import { getHeaderName } from '../config';
@@ -53,6 +55,19 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
     const [lecturers, setLecturers] = useState<Lecturer[]>([]);
     const notification = useNotifications();
     const isEdit = Boolean(courseData);
+    const [courseContents, setCourseContents] = useState<CourseContent[]>([]);
+    const [newContent, setNewContent] = useState<Omit<CourseContent, "id" | "createdAt" | "updatedAt" | "courseId">>({
+        teachingMethod: '',
+        status: '',
+        creditPoints: 0,
+        examType: '',
+        examDurationInMinutes: 0,
+        grading: '',
+        gradingShareInPercent: 0,
+        expectedHoursPerWeek: 0,
+        title: ''
+    });
+    const [contentDialogOpen, setContentDialogOpen] = useState(false);
 
     useEffect(() => {
         getLecturers().then(data => setLecturers(data));
@@ -109,6 +124,24 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                 autoHideDuration: 3000,
             });
         }
+    };
+
+    const handleAddContent = async () => {
+        if (!courseData) return;
+        const created = await createCourseContent(courseData.id, newContent);
+        setCourseContents([...courseContents, created]);
+        setNewContent({ teachingMethod: '', status: '', creditPoints: 0, examType: '', examDurationInMinutes: 0, grading: '', gradingShareInPercent: 0, title: "", expectedHoursPerWeek: 0 });
+        setContentDialogOpen(false);
+    };
+
+    const handleUpdateContent = async (id: number, updatedData: Partial<CourseContent>) => {
+        const updated = await updateCourseContent(id, updatedData);
+        setCourseContents(courseContents.map((c) => (c.id === id ? updated : c)));
+    };
+
+    const handleDeleteContent = async (id: number) => {
+        await deleteCourseContent(id);
+        setCourseContents(courseContents.filter((c) => c.id !== id));
     };
 
     return (
@@ -390,6 +423,112 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                     </Grid>
                 </Grid>
             </form>
+            {courseData && (
+                <>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Lehrform</TableCell>
+                                <TableCell>Status</TableCell>
+                                <TableCell>Semesterwochenstunden</TableCell>
+                                <TableCell>ECTS</TableCell>
+                                <TableCell>Prüfungsform</TableCell>
+                                <TableCell>Prüfungsdauer</TableCell>
+                                <TableCell>Benotung</TableCell>
+                                <TableCell>Anteil Note</TableCell>
+                                <TableCell>Aktionen</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {courseContents.map((content) => (
+                                <TableRow key={content.id}>
+                                    <TableCell>{content.title}</TableCell>
+                                    <TableCell>{content.teachingMethod}</TableCell>
+                                    <TableCell>{content.status}</TableCell>
+                                    <TableCell>{content.expectedHoursPerWeek}</TableCell>
+                                    <TableCell>{content.creditPoints}</TableCell>
+                                    <TableCell>{content.examType}</TableCell>
+                                    <TableCell>{content.examDurationInMinutes}</TableCell>
+                                    <TableCell>{content.grading}</TableCell>
+                                    <TableCell>{content.gradingShareInPercent}</TableCell>
+                                    <TableCell>
+                                        <IconButton onClick={() => handleUpdateContent(content.id, { ...content, status: 'Updated' })}>
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => handleDeleteContent(content.id)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <Button variant="contained" onClick={() => setContentDialogOpen(true)}>Add Course Content</Button>
+                    <Dialog open={contentDialogOpen} onClose={() => setContentDialogOpen(false)} maxWidth="sm" fullWidth>
+                        <DialogTitle>Add Course Content</DialogTitle>
+                        <DialogContent>
+                            <Box mt={2}>
+                                <TextField
+                                    label="Name"
+                                    value={newContent.teachingMethod}
+                                    onChange={(e) => setNewContent({ ...newContent, teachingMethod: e.target.value })}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Lehrform"
+                                    value={newContent.teachingMethod}
+                                    onChange={(e) => setNewContent({ ...newContent, teachingMethod: e.target.value })}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Status"
+                                    value={newContent.status}
+                                    onChange={(e) => setNewContent({ ...newContent, status: e.target.value })}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Credit Points"
+                                    type="number"
+                                    value={newContent.creditPoints}
+                                    onChange={(e) => setNewContent({ ...newContent, creditPoints: Number(e.target.value) })}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Exam Type"
+                                    value={newContent.examType}
+                                    onChange={(e) => setNewContent({ ...newContent, examType: e.target.value })}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Exam Duration"
+                                    type="number"
+                                    value={newContent.examDurationInMinutes}
+                                    onChange={(e) => setNewContent({ ...newContent, examDurationInMinutes: Number(e.target.value) })}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Grading"
+                                    value={newContent.grading}
+                                    onChange={(e) => setNewContent({ ...newContent, grading: e.target.value })}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="Module Grading"
+                                    type="number"
+                                    value={newContent.gradingShareInPercent}
+                                    onChange={(e) => setNewContent({ ...newContent, gradingShareInPercent: Number(e.target.value) })}
+                                    fullWidth
+                                />
+                            </Box>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setContentDialogOpen(false)} color="secondary">Abbrechen</Button>
+                            <Button onClick={handleAddContent} variant="contained" color="primary">Hinzufügen</Button>
+                        </DialogActions>
+                    </Dialog>
+                </>
+            )}
         </Container>
     );
 };
