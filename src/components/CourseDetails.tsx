@@ -42,15 +42,21 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                         </TableRow>
                         <TableRow>
                             <TableCell>Veranstaltungsdauer</TableCell>
-                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>1 Semester</TableCell>
+                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.durationInSemester} Semester</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Häufigkeit des Angebots</TableCell>
-                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>Jährlich / Wintersemester</TableCell>
+                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>
+                                {course.semesterPeriod === 0 ? 'Unregelmäßig' : course.semesterPeriod === 1 ? 'Jedes Semester' : `Jedes ${course.semesterPeriod}. Semester`}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Unterrichtssprache</TableCell>
+                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.courseLanguage}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Prüfungsform</TableCell>
-                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>Klausur</TableCell>
+                            <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.typeOfExamination}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Inhalt</TableCell>
@@ -83,6 +89,6 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                     </TableBody>
                 </Table>
             </CardContent>
-        </Card>
+        </Card >
     );
 }

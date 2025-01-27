@@ -15,6 +15,9 @@ model Course {
   contactTimeInHours   Int
   selfStudyTimeInHours Int
   workloadInHours      Int
+  durationInSemester   Int
+  courseLanguage       Language     @default(Deutsch)
+  typeOfExamination    String
   teachType            String
   ects                 Int
   code                 String
@@ -40,6 +43,11 @@ model Lecturer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   courses   Course[]
+}
+
+enum Language {
+  Deutsch
+  Englisch
 }
 
 enum Semester {

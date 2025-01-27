@@ -2,7 +2,7 @@
 import { createCourse, updateCourse } from '@/actions/mutations';
 import { getLecturers } from '@/actions/queries';
 import { Box, Button, Checkbox, Chip, Container, FormControl, Grid2 as Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip } from '@mui/material';
-import { Assignment, Course, Lecturer, Semester } from '@prisma/client';
+import { Assignment, Course, Language, Lecturer, Semester } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useEffect, useState } from 'react';
 import { getHeaderName } from '../config';
@@ -26,7 +26,10 @@ const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     requirements: '',
     literature: '',
     assignments: [],
-    lecturerId: null
+    lecturerId: null,
+    durationInSemester: 0,
+    courseLanguage: Language.Deutsch,
+    typeOfExamination: ''
 };
 
 const ITEM_HEIGHT = 48;
@@ -39,8 +42,7 @@ const MenuProps = {
         },
     },
 };
-
-const semesterOptions = [Semester.Sommersemester, Semester.Wintersemester];
+const semesterOptions = Object.values(Semester);
 
 export interface CourseFormProps {
     courseData?: Course,
@@ -59,7 +61,7 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent) => {
         const { name, value } = e.target;
         // Convert numeric fields to numbers
-        const numericFields = ['ects', 'contactTimeInHours', 'selfStudyTimeInHours', 'workloadInHours', 'nextOfferYear', 'lastOfferYear', 'semesterPeriod'];
+        const numericFields = ['ects', 'contactTimeInHours', 'selfStudyTimeInHours', 'workloadInHours', 'nextOfferYear', 'lastOfferYear', 'semesterPeriod', 'durationInSemester'];
         const processedValue = numericFields.includes(name) ? Number(value) : value;
 
         setCourse(prevCourse => ({
@@ -187,6 +189,42 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                             value={course.contactTimeInHours + course.selfStudyTimeInHours}
                             fullWidth
                         />
+                    </Grid>
+                    <Grid size={4}>
+                        <TextField
+                            name="typeOfExamination"
+                            label="Prüfungsfrom"
+                            value={course.typeOfExamination}
+                            onChange={handleChange}
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid size={4}>
+                        <TextField
+                            name="durationInSemester"
+                            label="Kursdauer in Semester"
+                            type="number"
+                            value={course.durationInSemester}
+                            onChange={handleChange}
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid size={4}>
+                        <FormControl fullWidth>
+                            <InputLabel>Sprache</InputLabel>
+                            <Select
+                                name="courseLanguage"
+                                value={course.courseLanguage}
+                                onChange={handleChange}
+                                label="Sprache"
+                            >
+                                {Object.values(Language).map((lang) => (
+                                    <MenuItem key={lang} value={lang}>
+                                        {lang}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid size={3}>
                         <FormControl fullWidth>
