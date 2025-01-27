@@ -86,7 +86,13 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
             />
 
             <div style={{ width: '100%' }}>
-                <DataGrid disableColumnMenu rows={filteredRows} columns={extendedColumns} slots={{ toolbar: Toolbar }} />
+                <DataGrid
+                    disableColumnMenu
+                    rows={filteredRows}
+                    columns={extendedColumns}
+                    hideFooterSelectedRowCount
+                    slots={{ toolbar: Toolbar }}
+                />
             </div>
 
             <Fab
