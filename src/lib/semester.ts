@@ -2,10 +2,12 @@
 import { Course, Semester } from "@prisma/client";
 
 export function stringifyLastOffer(course: Course): string {
+    if (course.lastOfferSemester === null || course.lastOfferSemester === Semester.keineAngabe) return "Keine Angabe";
     return `${course.lastOfferSemester} ${course.lastOfferYear}`;
 }
 
 export function stringifyNextOffer(course: Course): string {
+    if (course.nextOfferSemester === null || course.nextOfferSemester === Semester.keineAngabe) return "Keine Angabe";
     return `${course.nextOfferSemester} ${course.nextOfferYear}`;
 }
 

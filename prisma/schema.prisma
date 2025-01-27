@@ -53,6 +53,7 @@ enum Language {
 enum Semester {
   Sommersemester
   Wintersemester
+  keineAngabe
 }
 
 enum Assignment {
