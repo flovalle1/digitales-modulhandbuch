@@ -15,9 +15,9 @@ model Course {
   contactTimeInHours   Int
   selfStudyTimeInHours Int
   workloadInHours      Int
-  durationInSemester   Int
+  durationInSemester   Int             @default(1)
   courseLanguage       Language        @default(Deutsch)
-  typeOfExamination    String
+  typeOfExamination    String          @default("Klausur")
   teachType            String
   ects                 Int
   code                 String
@@ -35,7 +35,7 @@ model Course {
   assignments          Assignment[]
   lecturer             Lecturer?       @relation(fields: [lecturerId], references: [id])
   lecturerId           Int?
-  courseContent        CourseContent[]
+  CourseContent        CourseContent[]
 }
 
 model CourseContent {
