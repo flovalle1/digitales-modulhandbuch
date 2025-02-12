@@ -1,9 +1,9 @@
 import { stringifyLastOffer, stringifyNextOffer } from '@/lib/semester';
-import { CourseWithLecturer } from '@/types';
+import { CourseWithLecturerCourseContent } from '@/types';
 import { Card, CardContent, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 
 type CourseDetailsProps = {
-    course: CourseWithLecturer;
+    course: CourseWithLecturerCourseContent;
 };
 
 export default function CourseDetails({ course }: CourseDetailsProps) {
@@ -65,6 +65,34 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                         <TableRow>
                             <TableCell>Qualifikationsziele</TableCell>
                             <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.qualificationGoals}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <Table>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>Lehrform</TableCell>
+                                        <TableCell>Status</TableCell>
+                                        <TableCell>SWS</TableCell>
+                                        <TableCell>CP</TableCell>
+                                        <TableCell>Prüfungsform</TableCell>
+                                        <TableCell>Prüfungsdauer</TableCell>
+                                        <TableCell>Benotung</TableCell>
+                                        <TableCell>Anteil</TableCell>
+                                    </TableRow>
+                                    {course.courseContent.map((content) => (
+                                        <TableRow>
+                                            <TableCell>{content.title}</TableCell>
+                                            <TableCell>{content.status}</TableCell>
+                                            <TableCell>{content.expectedHoursPerWeek}</TableCell>
+                                            <TableCell>{content.creditPoints}</TableCell>
+                                            <TableCell>{content.examType}</TableCell>
+                                            <TableCell>{content.examDurationInMinutes}</TableCell>
+                                            <TableCell>{content.grading}</TableCell>
+                                            <TableCell>{content.gradingShareInPercent}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
                         </TableRow>
                         <TableRow>
                             <TableCell>Teilnahmevoraussetzungen</TableCell>

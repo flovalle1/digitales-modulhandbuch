@@ -16,6 +16,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         },
         include: {
             lecturer: true,
+            courseContent: true,
         },
     });
     return (

@@ -11,6 +11,7 @@ export default async function Veranstaltungsverzeichnisse() {
         {
             include: {
                 lecturer: true,
+                courseContent: true
             }
         }
     );
