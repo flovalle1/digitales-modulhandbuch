@@ -35,7 +35,7 @@ model Course {
   assignments          Assignment[]
   lecturer             Lecturer?       @relation(fields: [lecturerId], references: [id])
   lecturerId           Int?
-  CourseContent        CourseContent[]
+  courseContent        CourseContent[]
 }
 
 model CourseContent {
