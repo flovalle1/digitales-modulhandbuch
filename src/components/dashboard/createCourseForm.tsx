@@ -71,7 +71,7 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
     useEffect(() => {
         getLecturers().then(data => setLecturers(data));
         getCourseContents(courseData?.id || 0).then(data => setCourseContents(data));
-    }, []);
+    }, [courseData]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent) => {
         const { name, value } = e.target;
