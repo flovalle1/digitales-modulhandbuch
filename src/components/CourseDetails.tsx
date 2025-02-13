@@ -83,7 +83,7 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                                         </TableHead>
                                         <TableBody>
                                             {course.courseContent.map((content) => (
-                                                <TableRow id={content.id.toString()}>
+                                                <TableRow id={content.id.toString()} key={content.id}>
                                                     <TableCell>{content.title}</TableCell>
                                                     <TableCell>{content.status}</TableCell>
                                                     <TableCell>{content.expectedHoursPerWeek}</TableCell>
