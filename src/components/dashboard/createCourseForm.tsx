@@ -1,9 +1,8 @@
 "use client";
-import { createCourse, createCourseContent, deleteCourseContent, updateCourse, updateCourseContent } from '@/actions/mutations';
-import { getLecturers } from '@/actions/queries';
+import { createCourse, createCourseContent, deleteCourseContent, updateCourse } from '@/actions/mutations';
+import { getCourseContents, getLecturers } from '@/actions/queries';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, Checkbox, Chip, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid2 as Grid, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip } from '@mui/material';
+import { Box, Button, Card, Checkbox, Chip, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, Grid2 as Grid, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { Assignment, Course, CourseContent, Language, Lecturer, Semester } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useEffect, useState } from 'react';
@@ -71,6 +70,7 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
 
     useEffect(() => {
         getLecturers().then(data => setLecturers(data));
+        getCourseContents(courseData?.id || 0).then(data => setCourseContents(data));
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent) => {
@@ -132,11 +132,6 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
         setCourseContents([...courseContents, created]);
         setNewContent({ teachingMethod: '', status: '', creditPoints: 0, examType: '', examDurationInMinutes: 0, grading: '', gradingShareInPercent: 0, title: "", expectedHoursPerWeek: 0 });
         setContentDialogOpen(false);
-    };
-
-    const handleUpdateContent = async (id: number, updatedData: Partial<CourseContent>) => {
-        const updated = await updateCourseContent(id, updatedData);
-        setCourseContents(courseContents.map((c) => (c.id === id ? updated : c)));
     };
 
     const handleDeleteContent = async (id: number) => {
@@ -423,103 +418,113 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                     </Grid>
                 </Grid>
             </form>
-            {courseData && (
+            {isEdit && (
                 <>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Lehrform</TableCell>
-                                <TableCell>Status</TableCell>
-                                <TableCell>Semesterwochenstunden</TableCell>
-                                <TableCell>ECTS</TableCell>
-                                <TableCell>Prüfungsform</TableCell>
-                                <TableCell>Prüfungsdauer</TableCell>
-                                <TableCell>Benotung</TableCell>
-                                <TableCell>Anteil Note</TableCell>
-                                <TableCell>Aktionen</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {courseContents.map((content) => (
-                                <TableRow key={content.id}>
-                                    <TableCell>{content.title}</TableCell>
-                                    <TableCell>{content.teachingMethod}</TableCell>
-                                    <TableCell>{content.status}</TableCell>
-                                    <TableCell>{content.expectedHoursPerWeek}</TableCell>
-                                    <TableCell>{content.creditPoints}</TableCell>
-                                    <TableCell>{content.examType}</TableCell>
-                                    <TableCell>{content.examDurationInMinutes}</TableCell>
-                                    <TableCell>{content.grading}</TableCell>
-                                    <TableCell>{content.gradingShareInPercent}</TableCell>
-                                    <TableCell>
-                                        <IconButton onClick={() => handleUpdateContent(content.id, { ...content, status: 'Updated' })}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleDeleteContent(content.id)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
+                    <Divider sx={{ m: 4 }} />
+                    <Typography variant='h4' sx={{ mb: 2 }}>Inhalte</Typography>
+                    <TableContainer component={Card}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Lehrform</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Semesterwochenstunden</TableCell>
+                                    <TableCell>ECTS</TableCell>
+                                    <TableCell>Prüfungsform</TableCell>
+                                    <TableCell>Prüfungsdauer</TableCell>
+                                    <TableCell>Benotung</TableCell>
+                                    <TableCell>Anteil Note</TableCell>
+                                    <TableCell>Aktionen</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    <Button variant="contained" onClick={() => setContentDialogOpen(true)}>Add Course Content</Button>
+                            </TableHead>
+                            <TableBody>
+                                {courseContents.map((content) => (
+                                    <TableRow key={content.id}>
+                                        <TableCell>{content.title}</TableCell>
+                                        <TableCell>{content.teachingMethod}</TableCell>
+                                        <TableCell>{content.status}</TableCell>
+                                        <TableCell>{content.expectedHoursPerWeek}</TableCell>
+                                        <TableCell>{content.creditPoints}</TableCell>
+                                        <TableCell>{content.examType}</TableCell>
+                                        <TableCell>{content.examDurationInMinutes}</TableCell>
+                                        <TableCell>{content.grading}</TableCell>
+                                        <TableCell>{content.gradingShareInPercent}</TableCell>
+                                        <TableCell>
+                                            <IconButton onClick={() => handleDeleteContent(content.id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Button sx={{ mt: 2 }} variant="contained" onClick={() => setContentDialogOpen(true)}>Neuen Inhalt hinzufügen</Button>
                     <Dialog open={contentDialogOpen} onClose={() => setContentDialogOpen(false)} maxWidth="sm" fullWidth>
-                        <DialogTitle>Add Course Content</DialogTitle>
+                        <DialogTitle>Inhalte hinzufügen</DialogTitle>
                         <DialogContent>
                             <Box mt={2}>
-                                <TextField
-                                    label="Name"
-                                    value={newContent.teachingMethod}
-                                    onChange={(e) => setNewContent({ ...newContent, teachingMethod: e.target.value })}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Lehrform"
-                                    value={newContent.teachingMethod}
-                                    onChange={(e) => setNewContent({ ...newContent, teachingMethod: e.target.value })}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Status"
-                                    value={newContent.status}
-                                    onChange={(e) => setNewContent({ ...newContent, status: e.target.value })}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Credit Points"
-                                    type="number"
-                                    value={newContent.creditPoints}
-                                    onChange={(e) => setNewContent({ ...newContent, creditPoints: Number(e.target.value) })}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Exam Type"
-                                    value={newContent.examType}
-                                    onChange={(e) => setNewContent({ ...newContent, examType: e.target.value })}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Exam Duration"
-                                    type="number"
-                                    value={newContent.examDurationInMinutes}
-                                    onChange={(e) => setNewContent({ ...newContent, examDurationInMinutes: Number(e.target.value) })}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Grading"
-                                    value={newContent.grading}
-                                    onChange={(e) => setNewContent({ ...newContent, grading: e.target.value })}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Module Grading"
-                                    type="number"
-                                    value={newContent.gradingShareInPercent}
-                                    onChange={(e) => setNewContent({ ...newContent, gradingShareInPercent: Number(e.target.value) })}
-                                    fullWidth
-                                />
+                                <Stack spacing={2}>
+                                    <TextField
+                                        label="Titel"
+                                        value={newContent.title}
+                                        onChange={(e) => setNewContent({ ...newContent, title: e.target.value })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Lehrform"
+                                        value={newContent.teachingMethod}
+                                        onChange={(e) => setNewContent({ ...newContent, teachingMethod: e.target.value })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Status"
+                                        value={newContent.status}
+                                        onChange={(e) => setNewContent({ ...newContent, status: e.target.value })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Credit Points"
+                                        type="number"
+                                        value={newContent.creditPoints}
+                                        onChange={(e) => setNewContent({ ...newContent, creditPoints: Number(e.target.value) })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Exam Type"
+                                        value={newContent.examType}
+                                        onChange={(e) => setNewContent({ ...newContent, examType: e.target.value })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Exam Duration"
+                                        type="number"
+                                        value={newContent.examDurationInMinutes}
+                                        onChange={(e) => setNewContent({ ...newContent, examDurationInMinutes: Number(e.target.value) })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Grading"
+                                        value={newContent.grading}
+                                        onChange={(e) => setNewContent({ ...newContent, grading: e.target.value })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Module Grading"
+                                        type="number"
+                                        value={newContent.gradingShareInPercent}
+                                        onChange={(e) => setNewContent({ ...newContent, gradingShareInPercent: Number(e.target.value) })}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Semesterwochenstunden"
+                                        type="number"
+                                        value={newContent.expectedHoursPerWeek}
+                                        onChange={(e) => setNewContent({ ...newContent, expectedHoursPerWeek: Number(e.target.value) })}
+                                        fullWidth
+                                    />
+                                </Stack>
                             </Box>
                         </DialogContent>
                         <DialogActions>
