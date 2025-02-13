@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/prisma";
-import { CourseWithLecturer } from "@/types";
+import { CourseWithLecturer, CourseWithLecturerCourseContent } from "@/types";
 import { CourseContent, Lecturer } from "@prisma/client";
 
 export async function getCourses(): Promise<CourseWithLecturer[]> {
@@ -9,6 +9,21 @@ export async function getCourses(): Promise<CourseWithLecturer[]> {
         {
             include: {
                 lecturer: true,
+            }
+        }
+    );
+    return resp;
+}
+
+export async function getCourse(id: number): Promise<CourseWithLecturerCourseContent | null> {
+    const resp = await prisma.course.findUnique(
+        {
+            where: {
+                id: id
+            },
+            include: {
+                lecturer: true,
+                courseContent: true
             }
         }
     );

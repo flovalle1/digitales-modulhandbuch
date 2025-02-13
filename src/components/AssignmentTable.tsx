@@ -1,12 +1,14 @@
 "use client";
-import { paths } from '@/paths';
+import { getCourse } from '@/actions/queries';
+import { CourseWithLecturerCourseContent } from '@/types';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Box, Button, Chip, Stack } from "@mui/material";
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import { DataGrid, GridColDef, GridRowsProp, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { Lecturer } from '@prisma/client';
 import React from 'react';
 import { cs, FieldOfStudy, getFieldOfStudy } from './config';
+import CourseDetails from './CourseDetails';
 import TableDrawer from './TableDrawer';
 
 
@@ -29,12 +31,18 @@ export type FilterOption = {
     lecturer: Lecturer | null;
 }
 
+type PreviewDialog = {
+    open: boolean;
+    courseId: number | null;
+}
+
 export default function AssignmentTable({ rows }: AssignmentTableProps) {
     const [fieldOfStudy, setFieldOfStudy] = React.useState<FieldOfStudy>(cs);
     const [extendedColumns, setExtendedColumns] = React.useState<GridColDef[]>([...columns, ...cs.content]);
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const [filterOption, setFilterOption] = React.useState<FilterOption>({ key: 'cs', assignments: [], lecturer: null }); // updated
+    const [filterOption, setFilterOption] = React.useState<FilterOption>({ key: 'cs', assignments: [], lecturer: null });
     const [filteredRows, setFilteredRows] = React.useState(rows);
+    const [previewDialogOpen, setPreviewDialogOpen] = React.useState<PreviewDialog>({ open: false, courseId: null });
 
     React.useEffect(() => {
         setExtendedColumns([...columns, ...fieldOfStudy.content]);
@@ -77,6 +85,33 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
         );
     }
 
+
+
+    function CourseDialog({ open, courseId }: PreviewDialog) {
+        const [course, setCourse] = React.useState<CourseWithLecturerCourseContent | null>(null);
+        const [rlOpen, setRlOpen] = React.useState(false);
+
+        React.useEffect(() => {
+            if (courseId) {
+                getCourse(courseId).then(setCourse).then(() => { if (open) setRlOpen(true); });
+            }
+        }, [courseId]);
+
+        if (!courseId || !course) return null;
+
+        return (
+            <Dialog open={rlOpen} maxWidth={"xl"} fullWidth>
+                <DialogTitle>Kursdetails</DialogTitle>
+                <DialogContent>
+                    <CourseDetails course={course} />
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" onClick={() => { setPreviewDialogOpen(prev => ({ ...prev, open: false })); setRlOpen(false) }} color="secondary">Schließen</Button>
+                </DialogActions>
+            </Dialog >
+        );
+    }
+
     return (
         <Stack sx={{ m: 4, p: 2 }} >
             <TableDrawer
@@ -94,8 +129,17 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
                     hideFooterSelectedRowCount
                     slots={{ toolbar: Toolbar }}
                     disableRowSelectionOnClick
-                    onRowClick={(params) => {
-                        window.location.href = paths.singleCourse(params.row.id as string);
+                    getRowClassName={() => 'clickable-row'}
+                    onCellClick={(params, event) => {
+                        setPreviewDialogOpen({ open: true, courseId: params.row.id });
+                    }}
+                    sx={{
+                        '& .MuiDataGrid-cell:focus': {
+                            outline: 'none',
+                        },
+                        '& .MuiDataGrid-row:hover': {
+                            cursor: 'pointer',
+                        },
                     }}
                 />
             </div>
@@ -108,6 +152,7 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
             >
                 <FilterListIcon />
             </Fab>
+            {CourseDialog(previewDialogOpen)}
         </Stack >
     );
 }
