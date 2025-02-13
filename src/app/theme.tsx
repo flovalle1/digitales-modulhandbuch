@@ -8,6 +8,9 @@ const themeProps = {
     primary: {
       main: '#A51E37',
     },
+    secondary: {
+      main: '#707070',
+    },
   },
 };
 

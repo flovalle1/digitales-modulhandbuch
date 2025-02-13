@@ -7,6 +7,7 @@ import { Assignment, Course, CourseContent, Language, Lecturer, Semester } from 
 import { useNotifications } from '@toolpad/core';
 import { useEffect, useState } from 'react';
 import { getHeaderName } from '../config';
+import CourseDetails from '../CourseDetails';
 
 const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     title: '',
@@ -67,6 +68,7 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
         title: ''
     });
     const [contentDialogOpen, setContentDialogOpen] = useState(false);
+    const [previewDialogOpen, setPreviewDialogOpen] = useState(false);
 
     useEffect(() => {
         getLecturers().then(data => setLecturers(data));
@@ -412,12 +414,27 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                         </FormControl>
                     </Grid>
                     <Grid size={12}>
-                        <Button type="submit" variant="contained" color="primary">
+                        <Button sx={{mr: 2}} type="submit" variant="contained" color="primary">
                             {isEdit ? 'Kurs aktualisieren' : 'Kurs erstellen'}
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={() => setPreviewDialogOpen(true)}>
+                            Vorschau ansehen
                         </Button>
                     </Grid>
                 </Grid>
             </form>
+
+            <Dialog open={previewDialogOpen} onClose={() => setPreviewDialogOpen(false)} maxWidth="lg" fullWidth>
+                <DialogTitle>Kursvorschau</DialogTitle>
+                <DialogContent>
+                    <CourseDetails course={{ ...course, id: courseData?.id || 0, createdAt: new Date(), updatedAt: new Date(), lecturer: lecturers.find(l => l.id === course.lecturerId) || null, courseContent: courseContents }} />
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" onClick={() => setPreviewDialogOpen(false)} color="secondary">Vorschau schließen</Button>
+                </DialogActions>
+            </Dialog>
+
+
             {isEdit && (
                 <>
                     <Divider sx={{ m: 4 }} />
