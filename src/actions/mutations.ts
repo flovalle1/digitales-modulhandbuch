@@ -1,7 +1,16 @@
 "use server";
 
 import { prisma } from "@/prisma";
+import { saltAndHashPassword } from "@/utils/auth/saltAndHashPassword";
 import { Course, CourseContent, Lecturer } from "@prisma/client";
+import { User } from "next-auth";
+
+export type CreateUserInput = {
+    name: string;
+    email: string;
+    password: string;
+};
+
 
 export async function createCourse(courseData: Omit<Course, "id" | "createdAt" | "updatedAt">): Promise<Course> {
     const resp = await prisma.course.create({
@@ -82,4 +91,16 @@ export async function deleteCourseContent(id: number): Promise<CourseContent> {
         }
     });
     return resp;
+}
+
+export async function createUser(user: CreateUserInput): Promise<Omit<User, "passwordHash">> {
+    const passwordHash = await saltAndHashPassword(user.password);
+    const { password, ...userData } = user;
+
+    const resp = await prisma.user.create({
+        data: { passwordHash, ...userData }
+    });
+
+    const { passwordHash: _, ...userWithoutPasswordHash } = resp;
+    return userWithoutPasswordHash;
 }
