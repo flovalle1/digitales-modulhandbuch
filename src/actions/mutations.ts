@@ -93,6 +93,7 @@ export async function deleteCourseContent(id: number): Promise<CourseContent> {
     return resp;
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export async function createUser(user: CreateUserInput): Promise<Omit<User, "passwordHash">> {
     const passwordHash = await saltAndHashPassword(user.password);
     const { password, ...userData } = user;
@@ -104,3 +105,4 @@ export async function createUser(user: CreateUserInput): Promise<Omit<User, "pas
     const { passwordHash: _, ...userWithoutPasswordHash } = resp;
     return userWithoutPasswordHash;
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */

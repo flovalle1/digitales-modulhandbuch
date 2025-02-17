@@ -108,7 +108,7 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
             if (courseId) {
                 getCourse(courseId).then(setCourse).then(() => { if (open) setRlOpen(true); });
             }
-        }, [courseId]);
+        }, [courseId, open]);
 
         if (!courseId || !course) return null;
 
@@ -143,7 +143,7 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
                     slots={{ toolbar: Toolbar }}
                     disableRowSelectionOnClick
                     getRowClassName={() => 'clickable-row'}
-                    onCellClick={(params, event) => {
+                    onCellClick={(params) => {
                         setPreviewDialogOpen({ open: true, courseId: params.row.id });
                     }}
                     sx={{

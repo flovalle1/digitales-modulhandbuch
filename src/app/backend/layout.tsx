@@ -7,6 +7,7 @@ import { AppProvider, Navigation } from '@toolpad/core/AppProvider';
 import { SessionProvider } from "next-auth/react";
 
 
+import Image from 'next/image';
 import * as React from 'react';
 import theme from '../theme';
 
@@ -94,7 +95,7 @@ export default function AdminLayout({
             <AppProvider
                 navigation={NAVIGATION}
                 theme={theme}
-                branding={{ title: 'Dozenten Backend', logo: <img src="/Universitaet_Tuebingen.png" alt="Logo" style={{ maxWidth: '100%', height: 'auto' }} /> }}
+                branding={{ title: 'Dozenten Backend', logo: <Image src="/Universitaet_Tuebingen.png" alt="Logo" style={{ maxWidth: '100%', height: 'auto' }} /> }}
             >
                 {children}
             </AppProvider>
