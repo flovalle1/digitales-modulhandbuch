@@ -1,6 +1,7 @@
+import { getCurrentSemester, increaseSemester } from '@/lib/semester';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Box, Card, CardContent, CardHeader, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import { Assignment, Lecturer } from '@prisma/client';
+import { Box, Card, CardContent, CardHeader, Chip, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Assignment, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
 import { getLecturers } from '../actions/queries';
 import { FilterOption } from './AssignmentTable';
@@ -37,6 +38,9 @@ export interface TableDrawerProps {
 }
 
 export default function TableDrawer({ open, onClose, filters, changeFilter }: TableDrawerProps) {
+    const { semester: currentSemester, year: currentYear } = getCurrentSemester();
+    const { semester: nextSemester, year: nextYear } = increaseSemester(currentSemester, currentYear);
+
     const [tabValue, setTabValue] = React.useState(0);
     const [lectures, setLectures] = React.useState<Lecturer[]>([]);
 
@@ -69,10 +73,22 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
 
     const handleLecturerChange = (event: SelectChangeEvent) => {
         const selectedLecturer = lectures.find(lecturer => lecturer.name == event.target.value);
-        console.log(event.target.value);
-        console.log(selectedLecturer);
         changeFilter({ ...filters, lecturer: selectedLecturer || null });
     }
+
+    const handleNextOfferChange = (year: number | null, semester: Semester | null) => {
+        if (year === null || semester === null) {
+            changeFilter({
+                ...filters,
+                nextOffer: null
+            });
+            return;
+        }
+        changeFilter({
+            ...filters,
+            nextOffer: { year, semester }
+        });
+    };
 
     return (
         <Drawer
@@ -177,6 +193,39 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                                 </MenuItem>
                             ))}
                         </Select>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardHeader title="Semester" sx={{ textAlign: 'center' }} />
+                    <CardContent>
+                        <Stack direction="row" spacing={2} >
+                            <TextField
+                                type="number"
+                                value={filters.nextOffer?.year || ""}
+                                onChange={(e) => handleNextOfferChange(parseInt(e.target.value), filters.nextOffer?.semester || currentSemester)}
+                                fullWidth
+                            />
+                            <Select
+                                value={filters.nextOffer?.semester || Semester.keineAngabe}
+                                onChange={(e) => handleNextOfferChange(filters.nextOffer?.year || currentYear, e.target.value as Semester)}
+                                fullWidth
+                            >
+                                <MenuItem value={Semester.Sommersemester}>Sommersemester</MenuItem>
+                                <MenuItem value={Semester.Wintersemester}>Wintersemester</MenuItem>
+                            </Select>
+                        </Stack>
+                        <Stack direction="row" spacing={1} sx={{ mt: 2, justifyContent: 'center' }}>
+                            <Chip
+                                size="small"
+                                label="Zurücksetzen"
+                                onClick={() => handleNextOfferChange(null, null)}
+                            />
+                            <Chip
+                                size="small"
+                                label="Nächstes Semester"
+                                onClick={() => handleNextOfferChange(nextYear, nextSemester)}
+                            />
+                        </Stack>
                     </CardContent>
                 </Card>
             </Stack>
