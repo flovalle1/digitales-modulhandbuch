@@ -114,14 +114,14 @@ const LECTURER_NAVIGATION: Navigation = [
 
 
 
-export default function AdminLayout({
+export default async function AdminLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = auth();
+    const session = await auth();
+    console.log(session)
     //@ts-expect-error: session type istn changeable in the dependency
-
     const NAVIGATION = session?.user?.role === UserRole.ADMIN ? ADMIN_NAVIGATION : LECTURER_NAVIGATION;
 
     return (
