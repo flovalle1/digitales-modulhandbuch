@@ -1,6 +1,4 @@
-"use client";
-
-import AuthGuard from '@/utils/auth/authguard';
+import { AuthGuard } from '@/utils/auth/authguard';
 import { DashboardLayout, PageContainer } from '@toolpad/core';
 import * as React from 'react';
 

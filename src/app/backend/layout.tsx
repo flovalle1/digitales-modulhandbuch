@@ -7,12 +7,14 @@ import { AppProvider, Navigation } from '@toolpad/core/AppProvider';
 import { SessionProvider } from "next-auth/react";
 
 
+import { auth } from '@/auth';
+import { UserRole } from '@prisma/client';
 import Image from 'next/image';
 import * as React from 'react';
 import theme from '../theme';
 
 
-const NAVIGATION: Navigation = [
+const ADMIN_NAVIGATION: Navigation = [
     {
         kind: 'header',
         title: 'Übersicht',
@@ -85,11 +87,42 @@ const NAVIGATION: Navigation = [
     },
 ];
 
+const LECTURER_NAVIGATION: Navigation = [
+    {
+        kind: 'header',
+        title: 'Übersicht',
+    },
+    {
+        segment: 'backend',
+        title: 'Meine Kurse',
+        icon: <DashboardIcon />,
+    },
+    {
+        kind: 'divider',
+    },
+    {
+        kind: 'header',
+        title: 'Bearbeiten',
+    },
+    {
+        segment: 'backend/courses/edit',
+        title: 'Kurs bearbeiten',
+        icon: <StyleIcon />,
+        pattern: 'edit{/:lecturerId}*',
+    },
+]
+
+
+
 export default function AdminLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const session = auth();
+    //@ts-expect-error
+    const NAVIGATION = session?.user?.role === UserRole.ADMIN ? ADMIN_NAVIGATION : LECTURER_NAVIGATION;
+
     return (
         <SessionProvider>
             <AppProvider
