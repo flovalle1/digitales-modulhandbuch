@@ -1,33 +1,42 @@
-"use client";
+import { auth } from '@/auth';
 import { paths } from '@/paths';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import React, { ReactNode, useEffect } from 'react';
+import { UserRole } from '@prisma/client';
+import { redirect } from 'next/navigation';
+import React, { ReactNode } from 'react';
 
 interface AuthGuardProps {
     children: ReactNode;
 }
 
 
-const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
-    const { data: session, status } = useSession();
-    const router = useRouter();
+export const AuthGuard: React.FC<AuthGuardProps> = async ({ children }) => {
+    const session = await auth();
 
-    useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push(paths.signIn);
-        }
-    }, [status, router]);
-
-    if (status === 'loading' || status === 'unauthenticated') {
-        return <div>laden...</div>;
+    if (!session) {
+        redirect(paths.signIn);
     }
 
-    if (status === 'authenticated' && session) {
+    if (session) {
         return <>{children}</>;
     }
 
     return null;
 };
 
-export default AuthGuard;
+
+export const LecturerGuard: React.FC<AuthGuardProps> = async ({ children }) => {
+    const session = await auth();
+    console.log(session)
+
+    // @ts-expect-error
+    if (session?.user?.role == UserRole.LECTURER) {
+        return <div> Du bist nicht berechtigt auf diese Seite zuzugreifen.</div>;
+    }
+
+    // @ts-expect-error
+    if (session?.user?.role == UserRole.ADMIN) {
+        return <>{children}</>;
+    }
+
+    return null;
+}
