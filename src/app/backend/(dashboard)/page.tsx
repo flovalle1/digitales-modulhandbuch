@@ -22,7 +22,8 @@ export default async function DashboardLayoutBasic() {
         },
     }
 
-    //@ts-expect-error
+    //@ts-expect-error: session type istn changeable in the dependency
+
     if (session?.user?.role == 'LECTURER') query = { ...query, where: { lecturerId: session.user.lecturerId } }
 
     const allCourses = await prisma.course.findMany(query);

@@ -120,7 +120,8 @@ export default function AdminLayout({
     children: React.ReactNode;
 }>) {
     const session = auth();
-    //@ts-expect-error
+    //@ts-expect-error: session type istn changeable in the dependency
+
     const NAVIGATION = session?.user?.role === UserRole.ADMIN ? ADMIN_NAVIGATION : LECTURER_NAVIGATION;
 
     return (

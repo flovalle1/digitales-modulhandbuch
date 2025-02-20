@@ -9,7 +9,7 @@ export interface PageProps {
 
 export default async function Page({ params }: PageProps) {
     const [{ courseId }, session] = await Promise.all([params, auth()]);
-    // @ts-expect-error
+    // @ts-expect-error: session type istn changeable in the dependency
     const [userRole, lecturerId] = [session?.user?.role, session?.user?.lecturerId]
 
     const course = await prisma.course.findUnique({
