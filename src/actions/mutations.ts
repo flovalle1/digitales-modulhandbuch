@@ -56,7 +56,7 @@ export async function updateCourse(id: number, courseData: Omit<Course, "id" | "
 }
 
 export async function deleteCourse(id: number): Promise<Course> {
-    if (!await checkLecturerAccess(id)) throw new Error("Not authorized");
+    if (!await checkAdmin()) throw new Error("Not authorized");
     const resp = await prisma.course.delete({
         where: {
             id

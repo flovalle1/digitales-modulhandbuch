@@ -34,14 +34,21 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
 
     const handleDelete = async () => {
         if (selectedCourseId !== null) {
-            await deleteCourse(selectedCourseId);
-            handleClose();
-            notification.show("Der Kurs wurde gelöscht.", {
-                severity: "success",
-                autoHideDuration: 3000,
-            });
-        }
-    };
+            try {
+                await deleteCourse(selectedCourseId);
+                handleClose();
+                notification.show("Der Kurs wurde gelöscht.", {
+                    severity: "success",
+                    autoHideDuration: 3000,
+                });
+            } catch (error) {
+                notification.show("Du bist nicht berechtigt einen Kurs zu löschen.", {
+                    severity: "error",
+                    autoHideDuration: 3000,
+                });
+            }
+        };
+    }
 
     const columns: GridColDef[] = [
         {
