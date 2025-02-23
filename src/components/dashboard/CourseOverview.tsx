@@ -42,7 +42,7 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
                     autoHideDuration: 3000,
                 });
             } catch (error) {
-                notification.show("Du bist nicht berechtigt einen Kurs zu löschen.", {
+                notification.show("Du bist nicht berechtigt einen Kurs zu löschen: " + error, {
                     severity: "error",
                     autoHideDuration: 3000,
                 });
