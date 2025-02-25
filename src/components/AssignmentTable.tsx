@@ -5,7 +5,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import { DataGrid, GridColDef, GridRowsProp, GridToolbarQuickFilter } from '@mui/x-data-grid';
-import { Lecturer, Semester } from '@prisma/client';
+import { Language, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
 import { cs, FieldOfStudy, getFieldOfStudy } from './config';
 import CourseDetails from './CourseDetails';
@@ -32,7 +32,8 @@ export type FilterOption = {
     nextOffer: {
         year: number;
         semester: Semester
-    } | null
+    } | null;
+    language: Language | null;
 }
 
 type PreviewDialog = {
@@ -44,7 +45,7 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
     const [fieldOfStudy, setFieldOfStudy] = React.useState<FieldOfStudy>(cs);
     const [extendedColumns, setExtendedColumns] = React.useState<GridColDef[]>([...columns, ...cs.content]);
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const [filterOption, setFilterOption] = React.useState<FilterOption>({ key: 'cs', assignments: [], lecturer: null, nextOffer: null });
+    const [filterOption, setFilterOption] = React.useState<FilterOption>({ key: 'cs', assignments: [], lecturer: null, nextOffer: null, language: null });
     const [filteredRows, setFilteredRows] = React.useState(rows);
     const [previewDialogOpen, setPreviewDialogOpen] = React.useState<PreviewDialog>({ open: false, courseId: null });
 
@@ -70,6 +71,12 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
             tmpRows = tmpRows.filter((row) =>
                 row.year === filterOption.nextOffer?.year
                 && row.semester === filterOption.nextOffer?.semester
+            );
+        }
+
+        if (filterOption.language) {
+            tmpRows = tmpRows.filter((row) =>
+                row.language === filterOption.language
             );
         }
         setFilteredRows(tmpRows);

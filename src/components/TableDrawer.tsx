@@ -1,7 +1,7 @@
 import { getCurrentSemester, increaseSemester } from '@/lib/semester';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Box, Card, CardContent, CardHeader, Chip, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import { Assignment, Lecturer, Semester } from '@prisma/client';
+import { Assignment, Language, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
 import { getLecturers } from '../actions/queries';
 import { FilterOption } from './AssignmentTable';
@@ -89,6 +89,14 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
             nextOffer: { year, semester }
         });
     };
+
+    const handleLanguageChange = (event: SelectChangeEvent) => {
+        changeFilter({
+            ...filters,
+            language: event.target.value as Language
+        });
+    };
+
 
     return (
         <Drawer
@@ -226,6 +234,19 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                                 onClick={() => handleNextOfferChange(nextYear, nextSemester)}
                             />
                         </Stack>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader title="Sprache" sx={{ textAlign: 'center' }} />
+                    <CardContent>
+                        <Select
+                            value={filters.language || Language.Deutsch}
+                            onChange={(e) => handleLanguageChange(e)}
+                            fullWidth
+                        >
+                            <MenuItem value={Semester.Sommersemester}>{Language.Deutsch}</MenuItem>
+                            <MenuItem value={Semester.Wintersemester}>{Language.Englisch}</MenuItem>
+                        </Select>
                     </CardContent>
                 </Card>
             </Stack>
