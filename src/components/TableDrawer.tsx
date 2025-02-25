@@ -247,6 +247,11 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                             <MenuItem value={Semester.Sommersemester}>{Language.Deutsch}</MenuItem>
                             <MenuItem value={Semester.Wintersemester}>{Language.Englisch}</MenuItem>
                         </Select>
+                        <Chip
+                            size="small"
+                            label="Zurücksetzen"
+                            onClick={() => changeFilter({ ...filters, language: null })}
+                        />
                     </CardContent>
                 </Card>
             </Stack>
