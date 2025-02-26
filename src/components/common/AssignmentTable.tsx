@@ -1,9 +1,7 @@
 "use client";
 import { getCourse } from '@/actions/queries';
 import { CourseWithLecturerCourseContent } from '@/types';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
-import Fab from '@mui/material/Fab';
 import { DataGrid, GridColDef, GridRowsProp, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { Language, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
@@ -164,14 +162,6 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
                 />
             </div>
 
-            <Fab
-                color="primary"
-                aria-label="filter"
-                sx={{ position: 'fixed', bottom: 16, left: 16 }}
-                onClick={() => setDrawerOpen(!drawerOpen)}
-            >
-                <FilterListIcon />
-            </Fab>
             {CourseDialog(previewDialogOpen)}
         </Stack >
     );
