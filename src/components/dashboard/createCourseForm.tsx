@@ -6,8 +6,8 @@ import { Box, Button, Card, Checkbox, Chip, Container, Dialog, DialogActions, Di
 import { Assignment, Course, CourseContent, Language, Lecturer, Semester } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useEffect, useState } from 'react';
+import CourseDetails from '../common/CourseDetails';
 import { getHeaderName } from '../config';
-import CourseDetails from '../CourseDetails';
 
 const initialCourseState: Omit<Course, "id" | "createdAt" | "updatedAt"> = {
     title: '',
@@ -414,7 +414,7 @@ const CreateCourseForm = ({ courseData }: CourseFormProps) => {
                         </FormControl>
                     </Grid>
                     <Grid size={12}>
-                        <Button sx={{mr: 2}} type="submit" variant="contained" color="primary">
+                        <Button sx={{ mr: 2 }} type="submit" variant="contained" color="primary">
                             {isEdit ? 'Kurs aktualisieren' : 'Kurs erstellen'}
                         </Button>
                         <Button variant="contained" color="secondary" onClick={() => setPreviewDialogOpen(true)}>

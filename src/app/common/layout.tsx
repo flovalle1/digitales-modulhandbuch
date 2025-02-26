@@ -1,4 +1,4 @@
-import TopNavigation from '@/components/TopNavigation';
+import TopNavigation from '@/components/common/TopNavigation';
 import { ThemeProvider } from "@mui/material";
 import type { Metadata } from "next";
 import theme from '../theme';

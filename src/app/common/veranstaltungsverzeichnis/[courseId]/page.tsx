@@ -1,4 +1,4 @@
-import CourseDetails from '@/components/CourseDetails';
+import CourseDetails from '@/components/common/CourseDetails';
 import { prisma } from '@/prisma';
 import { Stack } from '@mui/material';
 

@@ -7,7 +7,7 @@ import Fab from '@mui/material/Fab';
 import { DataGrid, GridColDef, GridRowsProp, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { Language, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
-import { cs, FieldOfStudy, getFieldOfStudy } from './config';
+import { cs, FieldOfStudy, getFieldOfStudy } from '../config';
 import CourseDetails from './CourseDetails';
 import TableDrawer from './TableDrawer';
 

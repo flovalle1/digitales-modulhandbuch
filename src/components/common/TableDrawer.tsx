@@ -3,9 +3,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Box, Card, CardContent, CardHeader, Chip, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { Assignment, Language, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
-import { getLecturers } from '../actions/queries';
+import { getLecturers } from '../../actions/queries';
+import { getHeaderName } from '../config';
 import { FilterOption } from './AssignmentTable';
-import { getHeaderName } from './config';
 
 interface TabPanelProps {
     children?: React.ReactNode;

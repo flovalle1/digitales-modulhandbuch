@@ -1,4 +1,4 @@
-import AssignmentTable from "@/components/AssignmentTable";
+import AssignmentTable from "@/components/common/AssignmentTable";
 import { prisma } from "@/prisma";
 import { CourseWithLecturer } from "@/types";
 import { GridRowsProp } from "@mui/x-data-grid";

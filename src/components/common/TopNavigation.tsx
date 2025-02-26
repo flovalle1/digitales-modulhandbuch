@@ -18,20 +18,13 @@ import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
-import { getCourses } from '../actions/queries';
+import { getCourses } from '../../actions/queries';
 
 const pages = [
     { name: 'Zuordnungstabelle', link: paths.zuordnungstabelle },
     { name: 'Veranstaltunsverzeichnisse', link: paths.veranstaltungsverzeichnis },
     { name: 'Dozenten', link: paths.dozenten }
 ];
-
-// const demoAutocomplete = [
-//     { title: 'Grundlagen der Informatik', id: "1994" },
-//     { title: 'Kursname 3', id: "fasd" },
-//     { title: 'Testkurs', id: "asd" },
-//     { title: 'Das ist ein Kursname', id: "afsdp" }
-// ]
 
 export default function TopNavigation() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

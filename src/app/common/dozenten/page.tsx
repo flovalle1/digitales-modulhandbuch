@@ -1,4 +1,4 @@
-import LecturerCard from '@/components/LecturerCard';
+import LecturerCard from '@/components/common/LecturerCard';
 import { prisma } from '@/prisma';
 import { LecturerWithCourses } from '@/types';
 import { Stack } from '@mui/material';
