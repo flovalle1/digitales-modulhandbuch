@@ -29,7 +29,7 @@ const ADMIN_NAVIGATION: Navigation = [
     },
     {
         kind: 'header',
-        title: 'Bearbeiten',
+        title: 'Hinzufügen',
     },
     {
         segment: 'backend/courses',
@@ -40,13 +40,7 @@ const ADMIN_NAVIGATION: Navigation = [
                 segment: 'add',
                 title: 'Hinzufügen',
                 icon: <DescriptionIcon />,
-            },
-            {
-                segment: 'edit',
-                title: 'Bearbeiten',
-                icon: <DescriptionIcon />,
-                pattern: 'edit{/:courseId}*',
-            },
+            }
         ],
     },
     {
@@ -58,13 +52,7 @@ const ADMIN_NAVIGATION: Navigation = [
                 segment: 'add',
                 title: 'Hinzufügen',
                 icon: <DescriptionIcon />,
-            },
-            {
-                segment: 'edit',
-                title: 'Bearbeiten',
-                icon: <DescriptionIcon />,
-                pattern: 'edit{/:lecturerId}*',
-            },
+            }
         ],
     },
     {
@@ -76,13 +64,7 @@ const ADMIN_NAVIGATION: Navigation = [
                 segment: 'add',
                 title: 'Hinzufügen',
                 icon: <DescriptionIcon />,
-            },
-            {
-                segment: 'edit',
-                title: 'Bearbeiten',
-                icon: <DescriptionIcon />,
-                pattern: 'edit{/:lecturerId}*',
-            },
+            }
         ],
     },
 ];
@@ -96,20 +78,7 @@ const LECTURER_NAVIGATION: Navigation = [
         segment: 'backend',
         title: 'Meine Kurse',
         icon: <DashboardIcon />,
-    },
-    {
-        kind: 'divider',
-    },
-    {
-        kind: 'header',
-        title: 'Bearbeiten',
-    },
-    {
-        segment: 'backend/courses/edit',
-        title: 'Kurs bearbeiten',
-        icon: <StyleIcon />,
-        pattern: 'edit{/:lecturerId}*',
-    },
+    }
 ]
 
 
@@ -120,7 +89,6 @@ export default async function AdminLayout({
     children: React.ReactNode;
 }>) {
     const session = await auth();
-    console.log(session)
     //@ts-expect-error: session type istn changeable in the dependency
     const NAVIGATION = session?.user?.role === UserRole.ADMIN ? ADMIN_NAVIGATION : LECTURER_NAVIGATION;
 

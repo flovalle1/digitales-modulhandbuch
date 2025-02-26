@@ -26,7 +26,6 @@ export const AuthGuard: React.FC<AuthGuardProps> = async ({ children }) => {
 
 export const LecturerGuard: React.FC<AuthGuardProps> = async ({ children }) => {
     const session = await auth();
-    console.log(session)
 
     // @ts-expect-error: session type istn changeable in the dependency
 
