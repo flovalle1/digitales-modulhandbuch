@@ -140,3 +140,13 @@ export async function createUser(user: CreateUserInput): Promise<Omit<User, "pas
     return userWithoutPasswordHash;
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
+
+export async function deleteUser(id: string): Promise<User> {
+    if (!await checkAdmin()) throw new Error("Not authorized");
+    const resp = await prisma.user.delete({
+        where: {
+            id
+        }
+    });
+    return resp;
+}

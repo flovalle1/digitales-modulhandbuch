@@ -1,6 +1,5 @@
 'use client';
-import { deleteCourse } from '@/actions/mutations';
-import { CourseWithLecturer } from '@/types';
+import { deleteLecturer } from '@/actions/mutations';
 import { Delete } from '@mui/icons-material';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -10,17 +9,18 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
 import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { Lecturer } from '@prisma/client';
 import { useNotifications } from '@toolpad/core';
 import { useState } from 'react';
 
-export interface CourseOverwievProps {
-    courses: CourseWithLecturer[];
+export interface LecturerOverviewProps {
+    lecturers: Lecturer[];
 }
 
-export default function CourseOverwiev({ courses }: CourseOverwievProps) {
+export default function LecturerOverview({ lecturers }: LecturerOverviewProps) {
     const notification = useNotifications();
     const [open, setOpen] = useState(false);
-    const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
+    const [selectedLecturerId, setSelectedLecturerId] = useState<number | null>(null);
 
     function Toolbar() {
         return (
@@ -34,33 +34,32 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
                             .filter((value) => value !== '')
                     }
                 />
-                <Typography variant="h6">Kurse</Typography>
+                <Typography variant="h6">Dozenten</Typography>
             </Box>
         );
     }
 
-
     const handleClickOpen = (id: number) => {
-        setSelectedCourseId(id);
+        setSelectedLecturerId(id);
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
-        setSelectedCourseId(null);
+        setSelectedLecturerId(null);
     };
 
     const handleDelete = async () => {
-        if (selectedCourseId !== null) {
+        if (selectedLecturerId !== null) {
             try {
-                await deleteCourse(selectedCourseId);
+                await deleteLecturer(selectedLecturerId);
                 handleClose();
-                notification.show("Der Kurs wurde gelöscht.", {
+                notification.show("Der Dozent wurde gelöscht.", {
                     severity: "success",
                     autoHideDuration: 3000,
                 });
             } catch (error) {
-                notification.show("Du bist nicht berechtigt einen Kurs zu löschen: " + error, {
+                notification.show("Du bist nicht berechtigt einen Dozenten zu löschen: " + error, {
                     severity: "error",
                     autoHideDuration: 3000,
                 });
@@ -77,46 +76,15 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
             headerAlign: 'left'
         },
         {
-            field: 'code',
-            headerName: 'Kennung',
-            minWidth: 100,
-            disableColumnMenu: true,
-            headerAlign: 'left'
-        },
-        {
-            field: 'title',
-            headerName: 'Vorlsungstitel',
-            minWidth: 200,
-            disableColumnMenu: true,
-            headerAlign: 'left'
-        },
-        {
-            field: 'lecturer',
-            headerName: 'Dozent',
+            field: 'name',
+            headerName: 'Name',
             minWidth: 150,
             disableColumnMenu: true,
             headerAlign: 'left'
         },
         {
-            field: 'edit',
-            headerName: 'Kurs Bearbeiten',
-            minWidth: 130,
-            disableColumnMenu: true,
-            headerAlign: 'left',
-            renderCell: (params) => (
-                <Button
-                    variant='contained'
-                    size='small'
-                    href={`/backend/courses/edit/${params.row.id}`}
-                    style={{ marginLeft: 'auto' }}
-                >
-                    Öffnen
-                </Button>
-            ),
-        },
-        {
             field: 'delete',
-            headerName: 'Kurs Löschen',
+            headerName: 'Dozent Löschen',
             minWidth: 120,
             disableColumnMenu: true,
             headerAlign: 'left',
@@ -132,8 +100,8 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
         },
     ];
 
-    const rows = courses.map((course) => {
-        return { id: course.id, code: course.code, title: course.title, lecturer: course.lecturer?.name };
+    const rows = lecturers.map((lecturer) => {
+        return { id: lecturer.id, name: lecturer.name };
     });
 
     const paginationModel = { page: 0, pageSize: 5 };
@@ -148,7 +116,7 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
                     slots={{ toolbar: Toolbar }}
                     pageSizeOptions={[5, 10, 50]}
                     autosizeOptions={{
-                        columns: ['id', 'code', 'title', 'lecturer', 'edit'],
+                        columns: ['id', 'name', 'delete'],
                         includeOutliers: true,
                         includeHeaders: true,
                     }}
@@ -166,10 +134,10 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
                 open={open}
                 onClose={handleClose}
             >
-                <DialogTitle>{"Kurs Löschen"}</DialogTitle>
+                <DialogTitle>{"Dozent Löschen"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Sind Sie sicher, dass Sie diesen Kurs löschen möchten?
+                        Sind Sie sicher, dass Sie diesen Dozenten löschen möchten?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -184,5 +152,3 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
         </>
     );
 }
-
-

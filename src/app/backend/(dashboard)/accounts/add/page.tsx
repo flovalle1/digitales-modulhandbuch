@@ -1,15 +1,22 @@
 "use client";
 import { createUser } from '@/actions/mutations';
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { getLecturers } from '@/actions/queries';
+import { Button, Container, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
+import { Lecturer } from '@prisma/client';
 import { NotificationsProvider, useNotifications } from '@toolpad/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
 
 export default function AddUserPage() {
-    const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', password: '', lecturerId: 0 });
     const notification = useNotifications();
+    const [lecturers, setLecturers] = useState<Lecturer[]>([]);
+
+    useEffect(() => {
+        getLecturers().then(data => setLecturers(data));
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -18,15 +25,38 @@ export default function AddUserPage() {
         });
     };
 
+    const handleLecturerChange = (event: SelectChangeEvent<number>) => {
+        setFormData(prevForm => ({
+            ...prevForm,
+            lecturerId: event.target.value as number
+        }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const resp = await createUser(formData);
+        if (formData.lecturerId === 0) {
+            notification.show('Bitte wählen Sie einen Dozenten aus.', {
+                severity: "error",
+                autoHideDuration: 3000,
+            });
+            return;
+        }
 
-        setFormData({ name: '', email: '', password: '' });
-        notification.show(resp.name + ' wurde erfolgreich angelegt.', {
-            severity: "success",
-            autoHideDuration: 3000,
-        });
+        try {
+            await createUser(formData);
+            notification.show(formData.name + ' wurde erfolgreich angelegt.', {
+                severity: "success",
+                autoHideDuration: 3000,
+            });
+            setFormData({ name: '', email: '', password: '', lecturerId: 0 });
+        }
+        catch (error) {
+            notification.show('Es ist ein Fehler aufgetreten: ' + error, {
+                severity: "error",
+                autoHideDuration: 3000,
+            });
+        }
+
     };
 
     return (
@@ -37,12 +67,14 @@ export default function AddUserPage() {
                     <TextField
                         name="name"
                         label="Name"
+                        value={formData.name}
                         onChange={handleChange}
                         fullWidth
                         sx={{ mb: 2 }}
                     />
                     <TextField
                         name="email"
+                        value={formData.email}
                         label="E-Mail"
                         onChange={handleChange}
                         fullWidth
@@ -52,10 +84,28 @@ export default function AddUserPage() {
                         name="password"
                         label="Passwort"
                         type="password"
+                        value={formData.password}
                         onChange={handleChange}
                         fullWidth
                         sx={{ mb: 2 }}
                     />
+                    <FormControl sx={{ width: '100%', mb: 2 }} >
+                        <InputLabel id="lecturer-label">Verknüpfter Dozent</InputLabel>
+                        <Select
+                            labelId="lecturer-label"
+                            name="lecturerId"
+                            input={<OutlinedInput id="lecturer-label" label="Verknüpfter Dozent" />}
+                            value={formData.lecturerId || 0}
+                            onChange={handleLecturerChange}
+                            fullWidth
+                        >
+                            {lecturers.map((lecturer) => (
+                                <MenuItem key={lecturer.id} value={lecturer.id}>
+                                    {lecturer.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <Button variant="contained" color="primary" type="submit">Erstellen</Button>
                 </form>
             </Container>

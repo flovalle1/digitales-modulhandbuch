@@ -1,6 +1,6 @@
 'use client';
-import { deleteCourse } from '@/actions/mutations';
-import { CourseWithLecturer } from '@/types';
+import { deleteUser } from '@/actions/mutations';
+import { UserWithLecturer } from '@/types';
 import { Delete } from '@mui/icons-material';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -13,14 +13,14 @@ import { DataGrid, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { useNotifications } from '@toolpad/core';
 import { useState } from 'react';
 
-export interface CourseOverwievProps {
-    courses: CourseWithLecturer[];
+export interface UserOverviewProps {
+    users: UserWithLecturer[];
 }
 
-export default function CourseOverwiev({ courses }: CourseOverwievProps) {
+export default function UserOverview({ users }: UserOverviewProps) {
     const notification = useNotifications();
     const [open, setOpen] = useState(false);
-    const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
     function Toolbar() {
         return (
@@ -34,33 +34,32 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
                             .filter((value) => value !== '')
                     }
                 />
-                <Typography variant="h6">Kurse</Typography>
+                <Typography variant="h6">Benutzer</Typography>
             </Box>
         );
     }
 
-
-    const handleClickOpen = (id: number) => {
-        setSelectedCourseId(id);
+    const handleClickOpen = (id: string) => {
+        setSelectedUserId(id);
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
-        setSelectedCourseId(null);
+        setSelectedUserId(null);
     };
 
     const handleDelete = async () => {
-        if (selectedCourseId !== null) {
+        if (selectedUserId !== null) {
             try {
-                await deleteCourse(selectedCourseId);
+                await deleteUser(selectedUserId);
                 handleClose();
-                notification.show("Der Kurs wurde gelöscht.", {
+                notification.show("Der Benutzer wurde gelöscht.", {
                     severity: "success",
                     autoHideDuration: 3000,
                 });
             } catch (error) {
-                notification.show("Du bist nicht berechtigt einen Kurs zu löschen: " + error, {
+                notification.show("Du bist nicht berechtigt einen Benutzer zu löschen: " + error, {
                     severity: "error",
                     autoHideDuration: 3000,
                 });
@@ -77,46 +76,43 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
             headerAlign: 'left'
         },
         {
-            field: 'code',
-            headerName: 'Kennung',
-            minWidth: 100,
-            disableColumnMenu: true,
-            headerAlign: 'left'
-        },
-        {
-            field: 'title',
-            headerName: 'Vorlsungstitel',
-            minWidth: 200,
-            disableColumnMenu: true,
-            headerAlign: 'left'
-        },
-        {
-            field: 'lecturer',
-            headerName: 'Dozent',
+            field: 'name',
+            headerName: 'Name',
             minWidth: 150,
             disableColumnMenu: true,
             headerAlign: 'left'
         },
         {
-            field: 'edit',
-            headerName: 'Kurs Bearbeiten',
-            minWidth: 130,
+            field: 'email',
+            headerName: 'Email',
+            minWidth: 200,
             disableColumnMenu: true,
-            headerAlign: 'left',
-            renderCell: (params) => (
-                <Button
-                    variant='contained'
-                    size='small'
-                    href={`/backend/courses/edit/${params.row.id}`}
-                    style={{ marginLeft: 'auto' }}
-                >
-                    Öffnen
-                </Button>
-            ),
+            headerAlign: 'left'
+        },
+        {
+            field: 'role',
+            headerName: 'Rolle',
+            minWidth: 100,
+            disableColumnMenu: true,
+            headerAlign: 'left'
+        },
+        {
+            field: 'lecturerId',
+            headerName: 'Verknüpfter Dozent ID',
+            minWidth: 100,
+            disableColumnMenu: true,
+            headerAlign: 'left'
+        },
+        {
+            field: 'lecturerName',
+            headerName: 'Verknüpfter Dozent Name',
+            minWidth: 100,
+            disableColumnMenu: true,
+            headerAlign: 'left'
         },
         {
             field: 'delete',
-            headerName: 'Kurs Löschen',
+            headerName: 'Benutzer Löschen',
             minWidth: 120,
             disableColumnMenu: true,
             headerAlign: 'left',
@@ -132,8 +128,8 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
         },
     ];
 
-    const rows = courses.map((course) => {
-        return { id: course.id, code: course.code, title: course.title, lecturer: course.lecturer?.name };
+    const rows = users.map((user) => {
+        return { id: user.id, name: user.name, email: user.email, role: user.role, lecturerId: user.lecturerId, lecturerName: user.lecturer?.name };
     });
 
     const paginationModel = { page: 0, pageSize: 5 };
@@ -148,7 +144,7 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
                     slots={{ toolbar: Toolbar }}
                     pageSizeOptions={[5, 10, 50]}
                     autosizeOptions={{
-                        columns: ['id', 'code', 'title', 'lecturer', 'edit'],
+                        columns: ['id', 'name', 'email', 'role', 'delete'],
                         includeOutliers: true,
                         includeHeaders: true,
                     }}
@@ -166,10 +162,10 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
                 open={open}
                 onClose={handleClose}
             >
-                <DialogTitle>{"Kurs Löschen"}</DialogTitle>
+                <DialogTitle>{"Benutzer Löschen"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Sind Sie sicher, dass Sie diesen Kurs löschen möchten?
+                        Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -184,5 +180,3 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
         </>
     );
 }
-
-
