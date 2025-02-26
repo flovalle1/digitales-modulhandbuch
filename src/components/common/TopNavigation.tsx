@@ -16,9 +16,8 @@ import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
-import { getCourses } from '../../actions/queries';
 
 const pages = [
     { name: 'Zuordnungstabelle', link: paths.zuordnungstabelle },
@@ -26,7 +25,11 @@ const pages = [
     { name: 'Dozenten', link: paths.dozenten }
 ];
 
-export default function TopNavigation() {
+interface TopNavigationProps {
+    courses: CourseWithLecturer[];
+}
+
+export default function TopNavigation({ courses }: TopNavigationProps) {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -34,8 +37,9 @@ export default function TopNavigation() {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-    const [courses, setCourses] = React.useState<CourseWithLecturer[]>([]);
+
     const router = useRouter();
+    const pathname = usePathname();
 
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -52,13 +56,6 @@ export default function TopNavigation() {
         },
     }));
 
-    React.useEffect(() => {
-        const fetchCourses = async () => {
-            const coursesData = await getCourses();
-            setCourses(coursesData);
-        }
-        fetchCourses();
-    }, []);
 
     return (
         <AppBar position="static" sx={{ backgroundColor: '#272727' }}>
@@ -101,13 +98,20 @@ export default function TopNavigation() {
                             </MenuItem>
                         ))}
                     </Menu>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 4, }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 4 }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
                                 href={page.link}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block', ":hover": { backgroundColor: theme.palette.primary.main } }}
+                                sx={{
+                                    mx: 1,
+                                    my: 2,
+                                    color: 'white',
+                                    display: 'block',
+                                    backgroundColor: pathname === page.link ? theme.palette.primary.main : 'inherit',
+                                    ":hover": { backgroundColor: theme.palette.primary.main }
+                                }}
                             >
                                 {page.name}
                             </Button>
@@ -125,16 +129,20 @@ export default function TopNavigation() {
                                         router.push(paths.course(value.id.toString()));
                                     }
                                 }}
-                                renderOption={(props, option) => (
-                                    <Box component="li" {...props}>
-                                        <Box>
-                                            <Typography>{option.title}</Typography>
-                                            <Typography variant="caption" color="text.secondary">
-                                                {option.code} • {option.ects} ECTS • {option.lecturer?.name}
-                                            </Typography>
+                                renderOption={(props, option) => {
+                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                    const { key, ...rest } = props;
+                                    return (
+                                        <Box component="li" key={option.id} {...rest}>
+                                            <Box>
+                                                <Typography>{option.title}</Typography>
+                                                <Typography variant="caption" color="text.secondary">
+                                                    {option.code} • {option.ects} ECTS • {option.lecturer?.name}
+                                                </Typography>
+                                            </Box>
                                         </Box>
-                                    </Box>
-                                )}
+                                    )
+                                }}
                                 renderInput={(params) => <TextField {...params} label="Kurs suchen" />}
                             />
                         </Search>
