@@ -115,7 +115,7 @@ export default function CourseOverwiev({ courses }: CourseOverwievProps) {
     ];
 
     const rows = courses.map((course) => {
-        return { id: course.id, code: course.code, title: course.title, lecturer: course.lecturer };
+        return { id: course.id, code: course.code, title: course.title, lecturer: course.lecturer?.name };
     });
 
     const paginationModel = { page: 0, pageSize: 5 };
