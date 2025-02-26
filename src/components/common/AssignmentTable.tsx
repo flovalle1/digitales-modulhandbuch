@@ -2,7 +2,7 @@
 import { getCourse } from '@/actions/queries';
 import { CourseWithLecturerCourseContent } from '@/types';
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
-import { DataGrid, GridColDef, GridRowsProp, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { Language, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
 import { cs, FieldOfStudy, getFieldOfStudy } from '../config';
@@ -90,14 +90,14 @@ export default function AssignmentTable({ rows }: AssignmentTableProps) {
                 >
                     Filter
                 </Button>
-                <GridToolbarQuickFilter
+                {/* <GridToolbarQuickFilter
                     quickFilterParser={(searchInput: string) =>
                         searchInput
                             .split(',')
                             .map((value) => value.trim())
                             .filter((value) => value !== '')
                     }
-                />
+                /> */}
                 <Chip color="primary" label={fieldOfStudy.id} />
             </Box>
         );
