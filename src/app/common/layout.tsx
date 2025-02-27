@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Digitales Modulhandbuch Informatik Universität Tübingen.",
 };
 
+export const dynamic = 'force-dynamic'
+
 export default async function RootLayout({
   children,
 }: Readonly<{
