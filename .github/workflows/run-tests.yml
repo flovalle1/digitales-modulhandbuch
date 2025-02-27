@@ -1,0 +1,28 @@
+name: Linting and Typechecking
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Testing report
+          path: testing-report/
+          retention-days: 7
