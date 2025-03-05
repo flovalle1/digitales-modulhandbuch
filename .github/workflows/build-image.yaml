@@ -35,7 +35,7 @@ jobs:
     - name: Extract service names from docker-compose
       id: extract-services
       run: |
-        services=$(docker compose config --services)
+        services=$(docker compose config --services | tr '\n' ' ')
         echo "Services found: $services"
         echo "services=$services" >> $GITHUB_OUTPUT
 
