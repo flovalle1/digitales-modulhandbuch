@@ -43,7 +43,9 @@ jobs:
       run: |
         services="${{ steps.extract-services.outputs.services }}"
         for service in $services; do
-          docker compose build $service
+          if [ -f "./${service}/Dockerfile" ]; then
+            docker compose build $service
+          fi
           docker tag ${service}:latest ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-$service:${{ github.sha }}
           docker push ${{ env.REGISTRY }}/${{ env.PROJECT_NAME }}-$service:${{ github.sha }}
           
