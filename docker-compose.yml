@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: digitales-modulhandbuch-app:latest
     ports:
       - "3000:3000"
     depends_on:

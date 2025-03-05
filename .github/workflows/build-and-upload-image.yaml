@@ -28,7 +28,7 @@ jobs:
         docker pull postgres:latest
         
         # Tag and push app service image
-        docker tag modulhandbuch:latest ghcr.io/${{ github.repository }}/app:${{ github.sha }}
+        docker tag digitales-modulhandbuch-app:latest ghcr.io/${{ github.repository }}/app:${{ github.sha }}
         docker push ghcr.io/${{ github.repository }}/app:${{ github.sha }}
         
         # Tag and push postgres image
