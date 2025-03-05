@@ -29,6 +29,13 @@ jobs:
         # Build and push each service
         for service in $SERVICES; do
           docker compose build $service
-          docker tag $(docker compose images -q $service) ghcr.io/${{ github.repository }}/$service:${{ github.sha }}
+
+          IMAGE_ID=$(docker compose images -q $service)
+          if [ -z "$IMAGE_ID" ]; then
+            echo "Failed to get image ID for service $service"
+            exit 1
+          fi
+
+          docker tag $IMAGE_ID ghcr.io/${{ github.repository }}/$service:${{ github.sha }}
           docker push ghcr.io/${{ github.repository }}/$service:${{ github.sha }}
         done
