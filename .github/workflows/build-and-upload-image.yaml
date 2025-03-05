@@ -1,9 +1,7 @@
-name: Build and Upload Docker Images
+name: Build and Push Docker Images
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -21,21 +19,19 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Build and Push Docker Compose Services
+    - name: Build and Push Services
       run: |
-        # Get the list of services from docker-compose.yml
-        SERVICES=$(docker compose config --services | tr '\n' ' ')
+        # Build app service
+        docker compose build app
         
-        # Build and push each service
-        for service in $SERVICES; do
-          docker compose build $service
-
-          IMAGE_ID=$(docker compose images -q $service)
-          if [ -z "$IMAGE_ID" ]; then
-            echo "Failed to get image ID for service $service"
-            exit 1
-          fi
-
-          docker tag $IMAGE_ID ghcr.io/${{ github.repository }}/$service:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository }}/$service:${{ github.sha }}
-        done
+        # Pull postgres image
+        docker pull postgres:latest
+        
+        # Tag and push app service image
+        APP_IMAGE_ID=$(docker compose images -q app)
+        docker tag $APP_IMAGE_ID ghcr.io/${{ github.repository }}/app:${{ github.sha }}
+        docker push ghcr.io/${{ github.repository }}/app:${{ github.sha }}
+        
+        # Tag and push postgres image
+        docker tag postgres:latest ghcr.io/${{ github.repository }}/db:${{ github.sha }}
+        docker push ghcr.io/${{ github.repository }}/db:${{ github.sha }}
