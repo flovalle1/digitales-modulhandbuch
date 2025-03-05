@@ -28,8 +28,7 @@ jobs:
         docker pull postgres:latest
         
         # Tag and push app service image
-        APP_IMAGE_ID=$(docker compose images -q app)
-        docker tag $APP_IMAGE_ID ghcr.io/${{ github.repository }}/app:${{ github.sha }}
+        docker tag modulhandbuch:latest ghcr.io/${{ github.repository }}/app:${{ github.sha }}
         docker push ghcr.io/${{ github.repository }}/app:${{ github.sha }}
         
         # Tag and push postgres image
