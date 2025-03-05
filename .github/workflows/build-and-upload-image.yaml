@@ -23,15 +23,14 @@ jobs:
 
     - name: Save Docker Images to files
       run: |
-        services=$(docker compose config --services | tr '\n' ' ')
-        for service in $services; do
-          docker save ${service}:latest -o ${service}.tar
+        mkdir -p docker-images
+        SERVICES=$(docker compose config --services)
+        for service in $SERVICES; do
+          docker save $(docker compose ps -q $service) -o docker-images/$service.tar
         done
 
     - name: Upload Docker Images as artifacts
       uses: actions/upload-artifact@v4
       with:
         name: docker-images
-        path: |
-          app.tar
-          db.tar
+        path: docker-images/*.tar
