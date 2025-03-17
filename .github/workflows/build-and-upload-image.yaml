@@ -25,7 +25,7 @@ jobs:
     - name: Build and Push Services
       run: |
         # Build app service
-        docker compose build app
+        docker build -t digitales-modulhandbuch-app:latest .
         
         # Pull postgres image
         docker pull postgres:latest
