@@ -5,6 +5,7 @@ import { Stack } from '@mui/material';
 
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export default async function Veranstaltungsverzeichnisse() {
     const rows = await prisma.course.findMany(
