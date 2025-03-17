@@ -2,10 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: digitales-modulhandbuch-app:latest
+    image: ghcr.io/flovalle1/digitales-modulhandbuch/app:latest
     ports:
       - "3000:3000"
     depends_on:
