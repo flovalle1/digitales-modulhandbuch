@@ -16,7 +16,7 @@ type FindManyQuery = {
     }
 }
 
-export default async function DashboardLayoutBasic() {
+export default async function Dashboard() {
     const session = await auth();
     //@ts-expect-error: session type istn changeable in the dependency
     const userRole = session?.user?.role;
