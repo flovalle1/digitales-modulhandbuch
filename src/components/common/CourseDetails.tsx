@@ -69,6 +69,10 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                                 <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.typeOfExamination}</TableCell>
                             </AlterTableRow>
                             <AlterTableRow>
+                                <TableCell><b>Prüfungsform</b></TableCell>
+                                <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.teachType}</TableCell>
+                            </AlterTableRow>
+                            <AlterTableRow>
                                 <TableCell><b>Inhalt</b></TableCell>
                                 <TableCell sx={{ minWidth: 1000 }} colSpan={2}>{course.contents}</TableCell>
                             </AlterTableRow>

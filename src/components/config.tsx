@@ -32,6 +32,23 @@ export const getFieldOfStudy = (id: string) => {
     }
 }
 
+const renderConfig = {
+    renderHeader: (params: GridRenderCellParams) => (
+        <div style={{
+            whiteSpace: 'pre-wrap',
+            lineHeight: '1.2em',
+            maxHeight: '2.4em',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+        }}>
+            {params.colDef.headerName}
+        </div>
+    ),
+    renderCell: (params: GridRenderCellParams) => (
+        params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }} /> : <HighlightOffIcon sx={{ color: "red" }} />
+    ),
+}
+
 
 export const getHeaderName = (field: string): { assignment: string, fieldOfStudy: string } | null => {
     for (const fieldOfStudy of allTypeOfStudies) {
@@ -61,6 +78,17 @@ export const cs: FieldOfStudy = {
             field: 'mandatory_mathematics_cs',
             headerName: 'Pflichtbereich Mathematik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }} /> : <HighlightOffIcon sx={{ color: "red" }} />
             ),
@@ -69,6 +97,17 @@ export const cs: FieldOfStudy = {
             field: 'mandatory_proseminar_cs',
             headerName: 'Pflichtbereich Proseminar',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -78,6 +117,17 @@ export const cs: FieldOfStudy = {
             field: 'elective_practical_cs',
             headerName: 'Praktische Informatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -87,6 +137,17 @@ export const cs: FieldOfStudy = {
             field: 'elective_theoretical_cs',
             headerName: 'Theoretische Informatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -96,6 +157,17 @@ export const cs: FieldOfStudy = {
             field: 'elective_technical_cs',
             headerName: 'Technische Informatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -105,6 +177,17 @@ export const cs: FieldOfStudy = {
             field: 'elective_info_cs',
             headerName: 'Technische Informatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -136,6 +219,17 @@ export const bio_cs: FieldOfStudy = {
             field: 'elective_info_bio_cs',
             headerName: 'Wahlpflicht Bioinformatik',
             width: 200,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -145,6 +239,17 @@ export const bio_cs: FieldOfStudy = {
             field: 'elective_bioinfo_bio_cs',
             headerName: 'Wahlpflicht Informatik',
             width: 200,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -176,6 +281,17 @@ export const media_cs: FieldOfStudy = {
             field: 'elective_mediascience_media_cs',
             headerName: 'Wahlpflicht Medienwissenschaften',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -185,6 +301,17 @@ export const media_cs: FieldOfStudy = {
             field: 'elective_mediainfo_media_cs',
             headerName: 'Wahlpflicht Medieninformatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -194,6 +321,17 @@ export const media_cs: FieldOfStudy = {
             field: 'elective_info_media_cs',
             headerName: 'Wahlpflicht Informatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -225,6 +363,17 @@ export const medic_cs: FieldOfStudy = {
             field: 'elective_info_medic_cs',
             headerName: 'Wahlpflicht Informatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
@@ -234,6 +383,17 @@ export const medic_cs: FieldOfStudy = {
             field: 'elective_mediabioinf_medic_cs',
             headerName: 'Wahlpflicht Informatik',
             width: 150,
+            renderHeader: (params) => (
+                <div style={{
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: '1.2em',
+                    maxHeight: '2.4em',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {params.colDef.headerName}
+                </div>
+            ),
             renderCell: (params: GridRenderCellParams) => (
                 params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }
                 } /> : <HighlightOffIcon sx={{ color: "red" }} />
