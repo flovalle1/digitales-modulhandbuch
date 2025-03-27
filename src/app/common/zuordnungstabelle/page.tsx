@@ -5,7 +5,13 @@ import { GridRowsProp } from "@mui/x-data-grid";
 
 
 export const dynamic = 'force-dynamic';
-export default async function Home(): Promise<JSX.Element> {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const studyFilter = (await searchParams).studyFilter as string;
+
   const courses: CourseWithLecturer[] = await prisma.course.findMany(
     {
       include: {
@@ -33,7 +39,16 @@ export default async function Home(): Promise<JSX.Element> {
   });
 
   return (
-    <AssignmentTable rows={rows} />
+    <AssignmentTable
+      rows={rows}
+      filters={{
+        key: studyFilter ? studyFilter : 'cs',
+        assignments: [],
+        lecturer: null,
+        nextOffer: null,
+        language: null
+      }}
+    />
   );
 }
 

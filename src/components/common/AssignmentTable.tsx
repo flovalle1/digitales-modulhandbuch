@@ -13,6 +13,7 @@ import TableDrawer from './TableDrawer';
 
 export interface AssignmentTableProps {
     rows: GridRowsProp;
+    filters?: FilterOption;
 }
 
 const columns: GridColDef[] = [
@@ -39,11 +40,11 @@ type PreviewDialog = {
     courseId: number | null;
 }
 
-export default function AssignmentTable({ rows }: AssignmentTableProps) {
+export default function AssignmentTable({ rows, filters }: AssignmentTableProps) {
     const [fieldOfStudy, setFieldOfStudy] = React.useState<FieldOfStudy>(cs);
     const [extendedColumns, setExtendedColumns] = React.useState<GridColDef[]>([...columns, ...cs.content]);
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const [filterOption, setFilterOption] = React.useState<FilterOption>({ key: 'cs', assignments: [], lecturer: null, nextOffer: null, language: null });
+    const [filterOption, setFilterOption] = React.useState<FilterOption>(filters ? filters : { key: 'cs', assignments: [], lecturer: null, nextOffer: null, language: null });
     const [filteredRows, setFilteredRows] = React.useState(rows);
     const [previewDialogOpen, setPreviewDialogOpen] = React.useState<PreviewDialog>({ open: false, courseId: null });
 
