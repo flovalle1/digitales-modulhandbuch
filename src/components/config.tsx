@@ -32,24 +32,6 @@ export const getFieldOfStudy = (id: string) => {
     }
 }
 
-const renderConfig = {
-    renderHeader: (params: GridRenderCellParams) => (
-        <div style={{
-            whiteSpace: 'pre-wrap',
-            lineHeight: '1.2em',
-            maxHeight: '2.4em',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-        }}>
-            {params.colDef.headerName}
-        </div>
-    ),
-    renderCell: (params: GridRenderCellParams) => (
-        params.value ? <CheckCircleOutlineIcon sx={{ color: "green" }} /> : <HighlightOffIcon sx={{ color: "red" }} />
-    ),
-}
-
-
 export const getHeaderName = (field: string): { assignment: string, fieldOfStudy: string } | null => {
     for (const fieldOfStudy of allTypeOfStudies) {
         const column = fieldOfStudy.content.find(col => col.field === field);
