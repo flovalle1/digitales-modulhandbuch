@@ -9,7 +9,7 @@ services:
       - db
     entrypoint: ["/bin/sh", "-c"]
     command: |
-      npx prisma migrate deploy && npm start
+      npx prisma migrate deploy && npm run start
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/nextjs_db
     restart: always
