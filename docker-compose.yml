@@ -7,6 +7,9 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    entrypoint: ["/bin/sh", "-c"]
+    command: |
+      npx prisma migrate deploy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/nextjs_db
     restart: always
