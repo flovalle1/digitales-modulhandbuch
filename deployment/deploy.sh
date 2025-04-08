@@ -3,7 +3,7 @@
 set -euo pipefail
 
 LOCAL_REPO_PATH=${LOCAL_REPO_PATH:-".."}
-LOG_FILE="/logs.log"
+LOG_FILE="./logs.log"
 
 # Funktionen
 log() {
