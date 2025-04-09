@@ -6,8 +6,8 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
-      - migrate
+      migrate:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/nextjs_db
     restart: always
@@ -20,6 +20,11 @@ services:
     command: npx prisma migrate deploy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/nextjs_db
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "db", "-p", "5432", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   db:
     image: postgres:14-alpine
