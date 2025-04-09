@@ -7,6 +7,7 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - migrate
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/nextjs_db
     restart: always
