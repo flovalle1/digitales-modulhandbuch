@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   app:
-    image: ghcr.io/flovalle1/digitales-modulhandbuch/app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
@@ -10,13 +12,6 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/nextjs_db
     restart: always
-
-  migrate:
-    image: ghcr.io/flovalle1/digitales-modulhandbuch/app:latest
-    depends_on:
-      - db
-    entrypoint: ["/bin/sh", "-c"]
-    command: npx prisma migrate deploy
 
   db:
     image: postgres:14-alpine
