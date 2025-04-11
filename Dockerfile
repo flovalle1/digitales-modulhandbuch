@@ -20,6 +20,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Set DATABASE_URL environment variable for Prisma commands
+ENV DATABASE_URL=postgresql://postgres:postgres@db:5432/nextjs_db
+
 RUN npx prisma generate 
 RUN npx prisma migrate deploy
 
