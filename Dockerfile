@@ -24,7 +24,6 @@ COPY . .
 ENV DATABASE_URL=postgresql://postgres:postgres@db:5432/nextjs_db
 
 RUN npx prisma generate 
-RUN npx prisma migrate deploy
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

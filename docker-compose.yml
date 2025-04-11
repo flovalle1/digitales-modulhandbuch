@@ -11,6 +11,8 @@ services:
       - db
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/nextjs_db
+    command: >
+      sh -c "npx prisma migrate deploy && node server.js"
     restart: always
 
   db:
