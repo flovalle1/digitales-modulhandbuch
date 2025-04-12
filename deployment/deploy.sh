@@ -42,9 +42,6 @@ fi
 log "Starte Docker Compose Up..."
 docker compose up -d || handle_error "Docker Compose up fehlgeschlagen"
 
-log "Führe Datenbank-Migrationen aus..."
-docker compose exec app npx prisma migrate deploy || handle_error "Migration fehlgeschlagen"
-
 # Alte Images und Container bereinigen (optional)
 log "Bereinige ungenutzte Docker-Ressourcen..."
 docker system prune -af --volumes || log "Warnung: Docker system prune fehlgeschlagen"
