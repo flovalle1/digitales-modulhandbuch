@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    environment: staging
 
     steps:
     - name: Checkout code
