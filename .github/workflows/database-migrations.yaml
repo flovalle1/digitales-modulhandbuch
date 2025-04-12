@@ -23,5 +23,5 @@ jobs:
 
     - name: Run database migrations
       env:
-        DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@${{ vars.PRODUCTION_URL }}:5432/${{ secrets.POSTGRES_DB }}
+        DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@${{ secrets.DATABASE_HOST }}/${{ secrets.POSTGRES_DB }}
       run: npx prisma migrate deploy
