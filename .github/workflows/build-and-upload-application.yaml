@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-push:
+  build-and-push-nextjs-app:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,22 +22,23 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Build and Push Services
+    - name: Build and Push Next.js App
       run: |
         # Build app service
         docker build -t digitales-modulhandbuch-app:latest .
-        
-        # Pull postgres image
-        docker pull postgres:latest
         
         # Tag and push app service image
         docker tag digitales-modulhandbuch-app:latest ghcr.io/${{ github.repository }}/app:${{ github.sha }}
         docker push ghcr.io/${{ github.repository }}/app:${{ github.sha }}
         docker tag digitales-modulhandbuch-app:latest ghcr.io/${{ github.repository }}/app:latest
         docker push ghcr.io/${{ github.repository }}/app:latest
+
+    - name : Build and Push Cronservice  
+      run: |
+        docker build -t cronservice:latest cronjob/
         
-        # Tag and push postgres image
-        docker tag postgres:latest ghcr.io/${{ github.repository }}/db:${{ github.sha }}
-        docker push ghcr.io/${{ github.repository }}/db:${{ github.sha }}
-        docker tag postgres:latest ghcr.io/${{ github.repository }}/db:latest
-        docker push ghcr.io/${{ github.repository }}/db:latest
+        # Tag and push cronservice image
+        docker tag cronservice:latest ghcr.io/${{ github.repository }}/cronservice:${{ github.sha }}
+        docker push ghcr.io/${{ github.repository }}/cronservice:${{ github.sha }}
+        docker tag cronservice:latest ghcr.io/${{ github.repository }}/cronservice:latest
+        docker push ghcr.io/${{ github.repository }}/cronservice:latest
