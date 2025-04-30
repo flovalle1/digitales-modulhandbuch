@@ -24,5 +24,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: always
 
-volumes:
-  postgres_data:
+  cronservice:
+    image: ghcr.io/flovalle1/digitales-modulhandbuch/cronservice:latest
+    environment:
+      - WEBHOOK_URL=${POSTGRES_PASSWORD}/api/updatesemester
+      - API_KEY=${CRONJOB_API_KEY}
+    restart: always
