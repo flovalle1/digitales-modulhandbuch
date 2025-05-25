@@ -1,6 +1,6 @@
 import { getCurrentSemester, increaseSemester } from '@/lib/semester';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Box, Card, CardContent, CardHeader, Chip, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Autocomplete, Box, Card, CardContent, CardHeader, Chip, Drawer, IconButton, MenuItem, Select, SelectChangeEvent, Stack, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { Assignment, Language, Lecturer, Semester } from '@prisma/client';
 import React from 'react';
 import { getLecturers } from '../../actions/queries';
@@ -187,20 +187,24 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                 <Card >
                     <CardHeader title="Dozent" sx={{ textAlign: 'center' }} />
                     <CardContent>
-                        <Select
-                            value={filters.lecturer?.name}
-                            onChange={handleLecturerChange}
-                            fullWidth
-                        >
-                            {lectures.map((lecturer) => (
-                                <MenuItem
-                                    key={lecturer.id}
-                                    value={lecturer.name}
-                                >
-                                    {lecturer.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
+                        <Autocomplete
+                            disablePortal
+                            options={lectures}
+                            getOptionLabel={(option) => option.name}
+                            onChange={(event, value) => handleLecturerChange({ target: { value: value?.name || '' } } as SelectChangeEvent)}
+                            renderOption={(props, option) => {
+                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                const { key, ...rest } = props;
+                                return (
+                                    <Box component="li" key={option.id} {...rest}>
+                                        <Box>
+                                            <Typography>{option.name}</Typography>
+                                        </Box>
+                                    </Box>
+                                )
+                            }}
+                            renderInput={(params) => <TextField {...params} label="Dozent wählen" />}
+                        />
                     </CardContent>
                 </Card>
                 <Card >
@@ -230,6 +234,11 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                             />
                             <Chip
                                 size="small"
+                                label="Dieses Semester"
+                                onClick={() => handleNextOfferChange(currentYear, currentSemester)}
+                            />
+                            <Chip
+                                size="small"
                                 label="Nächstes Semester"
                                 onClick={() => handleNextOfferChange(nextYear, nextSemester)}
                             />
@@ -240,21 +249,24 @@ export default function TableDrawer({ open, onClose, filters, changeFilter }: Ta
                     <CardHeader title="Sprache" sx={{ textAlign: 'center' }} />
                     <CardContent>
                         <Select
-                            value={filters.language || Language.Deutsch}
+                            value={filters.language || ""}
                             onChange={(e) => handleLanguageChange(e)}
                             fullWidth
                         >
-                            <MenuItem value={Semester.Sommersemester}>{Language.Deutsch}</MenuItem>
-                            <MenuItem value={Semester.Wintersemester}>{Language.Englisch}</MenuItem>
+                            <MenuItem value={Language.Deutsch}>{Language.Deutsch}</MenuItem>
+                            <MenuItem value={Language.Englisch}>{Language.Englisch}</MenuItem>
+                            <MenuItem value={Language.DeutschUndEnglisch}>Deutsch und Englisch</MenuItem>
                         </Select>
-                        <Chip
-                            size="small"
-                            label="Zurücksetzen"
-                            onClick={() => changeFilter({ ...filters, language: null })}
-                        />
+                        <Stack direction="row" spacing={1} sx={{ mt: 2, justifyContent: 'center' }}>
+                            <Chip
+                                size="small"
+                                label="Zurücksetzen"
+                                onClick={() => changeFilter({ ...filters, language: null })}
+                            />
+                        </Stack>
                     </CardContent>
                 </Card>
             </Stack>
-        </Drawer>
+        </Drawer >
     );
 }

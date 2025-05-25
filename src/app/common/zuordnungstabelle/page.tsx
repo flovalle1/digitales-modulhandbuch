@@ -34,6 +34,7 @@ export default async function Page({
       ects: course.ects,
       code: course.code,
       lecturer: course.lecturer?.name,
+      language: course.courseLanguage,
       ...assignmentMap
     };
   });
