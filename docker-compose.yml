@@ -5,7 +5,7 @@ services:
     image: ghcr.io/flovalle1/digitales-modulhandbuch/app:latest
     pull_policy: always
     ports:
-      - "3000:80"
+      - "80:3000"
     depends_on:
       - db
     environment:

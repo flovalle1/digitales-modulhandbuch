@@ -17,7 +17,7 @@ export default function Home() {
             <CardActionArea href={paths.zuordnungstabelle}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Zuordungstabellen
+                  Zuordnungstabellen
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   Tabellarische Auflistung aller Lehrveranstaltungen und deren Zugehörigkeit zu den Studienbereichen.
@@ -25,10 +25,10 @@ export default function Home() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button href={paths.veranstaltungsverzeichnisFilter("cs")} variant="contained" size="small" color="primary">
+              <Button href={paths.zuordnungstabelleFilter("cs")} variant="contained" size="small" color="primary">
                 Bachelor
               </Button>
-              <Button href={paths.veranstaltungsverzeichnisFilter("cs-master")} variant="contained" size="small" color="primary">
+              <Button href={paths.zuordnungstabelleFilter("cs-master")} variant="contained" size="small" color="primary">
                 Master
               </Button>
             </CardActions>
