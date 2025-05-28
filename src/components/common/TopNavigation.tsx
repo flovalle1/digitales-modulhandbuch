@@ -21,7 +21,7 @@ import * as React from 'react';
 
 const pages = [
     { name: 'Zuordnungstabelle', link: paths.zuordnungstabelle },
-    { name: 'Veranstaltunsverzeichnisse', link: paths.veranstaltungsverzeichnis },
+    { name: 'Veranstaltungsverzeichnisse', link: paths.veranstaltungsverzeichnis },
     { name: 'Dozenten', link: paths.dozenten }
 ];
 
