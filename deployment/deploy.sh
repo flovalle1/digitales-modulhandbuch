@@ -14,7 +14,7 @@ log() {
 
 handle_error() {
   log "FEHLER: $1"
-  exit 1
+  return 1
 }
 
 # Stelle sicher, dass Log-Verzeichnis existiert
@@ -48,4 +48,3 @@ docker system prune -af --volumes || log "Warnung: Docker system prune fehlgesch
 
 # Deployment abgeschlossen
 log "Deployment erfolgreich abgeschlossen!"
-exit 0
