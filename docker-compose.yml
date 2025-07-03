@@ -30,3 +30,7 @@ services:
       - WEBHOOK_URL=${POSTGRES_PASSWORD}/api/updatesemester
       - API_KEY=${CRONJOB_API_KEY}
     restart: always
+
+volumes:
+  postgres_data:
+
