@@ -1,5 +1,7 @@
 # Digitales Modulhandbuch
 
+[Crushing Boundaries: Overcoming Technical Debt By Using Full Stack Frameworks (PDF)](https://www.florianmartel.de/Crushing_Boundaries_Overcoming_Technical_Debt_By_Using_Full_Stack_Frameworks.pdf)
+
 ## Project Description
 
 The **Digitales Modulhandbuch** is a web-based application designed to manage and display information about courses, lecturers, and users in an academic environment. It provides an intuitive dashboard for administrators and lecturers to manage data. The project is built with Next.js, TypeScript, and Material-UI.
